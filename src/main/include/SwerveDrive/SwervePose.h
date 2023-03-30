@@ -3,17 +3,22 @@
 #include "Geometry/Point.h"
 
 namespace SwervePose{
-    struct SwervePose{
-        Point pos;
+    struct Pose{
+        Point pos;//meters
         Vector vel;
         Vector accel;
 
-        double ang; //Radians
+        double ang; //radians
         double angVel;
         double angAccel;
     };
 
-    void zero(SwervePose pose){
+    struct ModulePose{
+        double speed;
+        double ang;
+    };
+
+    static void zero(Pose pose){
         pose.pos = {0.0,0.0};
         pose.vel = {0.0,0.0};
         pose.accel = {0.0,0.0};

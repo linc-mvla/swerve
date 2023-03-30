@@ -7,14 +7,8 @@ SwerveDrive::SwerveDrive(std::string name):
     name_(name)
 {
     for(int i = 0; i < SwerveConstants::NUMSWERVE; i++){
-        SwerveConstants::SwerveStruct module = SwerveConstants::MODULES[i];
-        modules_[i] = SwerveModule( module.name, 
-                                    module.driveID,
-                                    module.turnID,
-                                    module.pos
-                                    );
+        modules_[i] = SwerveModule(SwerveConstants::MODULES[i]);
     }
-
     reset();
 }
 
@@ -62,6 +56,16 @@ void SwerveDrive::TeleopPeriodic(){
     for(SwerveModule& module : modules_){
         module.TeleopPeriodic();
     }
+    drive();
+}
+
+void SwerveDrive::drive(){
+    for(SwerveModule& module : modules_){
+        Vector angVelVec = module.getPos() - pivot_;
+        angVelVec.rotateClockwise90This();
+        Vector moduleVec = targetPose_.vel.rotate(-currentPose_.ang) + (angVelVec*targetPose_.ang);
+        module.setTarget(SwervePose::ModulePose{moduleVec.originDist(), moduleVec.getAng()});
+    }
 }
 
 void SwerveDrive::DisabledPeriodic(){
@@ -70,6 +74,12 @@ void SwerveDrive::DisabledPeriodic(){
     }
 }
 
-SwervePose::SwervePose SwerveDrive::getCurrPose(){
+void SwerveDrive::SetTarget(Vector v, double angV, bool volts){
+    targetPose_.vel = v;
+    targetPose_.angVel = angV;
+    volts_ = volts;
+}
+
+SwervePose::Pose SwerveDrive::getCurrPose(){
     return currentPose_;
 }

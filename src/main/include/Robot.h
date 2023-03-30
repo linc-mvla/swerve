@@ -11,6 +11,7 @@
 
 #include "RobotConstants.h"
 #include "SwerveDrive/SwerveDrive.h"
+#include "Controls/Controls.h"
 
 class Robot : public frc::TimedRobot {
     public:
@@ -30,4 +31,5 @@ class Robot : public frc::TimedRobot {
     private:
         SwerveDrive drive_{"D:"};
         AHRS* navx_;
+        Controls controls_;
 };

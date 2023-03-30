@@ -19,7 +19,11 @@ class SwerveDrive{
         void TeleopPeriodic();
         void DisabledPeriodic();
 
-        SwervePose::SwervePose getCurrPose();
+        void drive();
+        
+        void SetTarget(Vector v, double angV, bool volts = true);
+
+        SwervePose::Pose getCurrPose();
         
         void setNAVX(AHRS* navx) {navx_ = navx;}
 
@@ -29,8 +33,11 @@ class SwerveDrive{
         std::string name_;
         SwerveModule modules_[SwerveConstants::NUMSWERVE];
 
-        SwervePose::SwervePose targetPose_;
-        SwervePose::SwervePose currentPose_;
+        Point pivot_{0.0, 0.0};
+
+        SwervePose::Pose targetPose_;
+        SwervePose::Pose currentPose_;
+        bool volts_ = true;
 
         double lastUpdate_;
 

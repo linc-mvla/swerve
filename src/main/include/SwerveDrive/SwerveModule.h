@@ -5,18 +5,28 @@
 #include <ctre/Phoenix.h>
 #include <units/voltage.h>
 
+#include <frc2/command/PIDCommand.h>
+
 #include "Geometry/Point.h"
+#include "SwervePose.h"
 #include "SwerveConstants.h"
 
 class SwerveModule{
     public:
-        SwerveModule(std::string name, int driveID, int turnID, Point pos);
-        SwerveModule() = default;
-        SwerveModule(SwerveModule& other) : name_(other.name_), pos_(other.pos_), driveMotor_(other.driveMotor_), turnMotor_(other.turnMotor_){};
+        SwerveModule();
+        SwerveModule(SwerveConstants::SwerveStruct swerveMod);
+        SwerveModule(SwerveModule& other) : name_(other.name_),
+                                            pos_(other.pos_),
+                                            driveMotor_(other.driveMotor_),
+                                            turnMotor_(other.turnMotor_),
+                                            turnPID_(other.turnPID_)
+                                            {};
 
         void Periodic();
         void TeleopPeriodic();
         void DisabledPeriodic();
+
+        void setTarget(SwervePose::ModulePose pose, bool volts = true);
 
         void ShowShuffleBoard();
 
@@ -33,6 +43,10 @@ class SwerveModule{
         
         WPI_TalonFX* turnMotor_;
         units::volt_t turnVolts_{0.0};
+
+        frc::PIDController turnPID_;
+        SwervePose::ModulePose targetPose_;
+        bool volts_;
 
         Point pos_; //Position on robot
 

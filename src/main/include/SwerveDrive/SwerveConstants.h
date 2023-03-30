@@ -2,6 +2,9 @@
 
 #include <string>
 #include <cmath>
+
+#include <frc2/command/PIDCommand.h>
+
 #include "Geometry/Point.h"
 
 namespace SwerveConstants{
@@ -11,6 +14,7 @@ namespace SwerveConstants{
         int driveID;
         int turnID;
         Point pos; //Meters
+        frc::PIDController turnPID = {0, 0, 0};
     };
 
     const SwerveStruct FL = {   "Front Left",
@@ -41,6 +45,7 @@ namespace SwerveConstants{
     const int NUMSWERVE = 4;
 
     const double DRIVE_MAX_VOLTS = 3.0; //Volts
+    const double TURN_MAX_VOLTS = 3.0; //Volts
 
     const double WHEEL_RADIUS = 2.0; //Meters
     const double TICKS_PER_ROTATION = 2048.0;

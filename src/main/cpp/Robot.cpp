@@ -44,6 +44,7 @@ void Robot::AutonomousPeriodic() {
 void Robot::TeleopInit() {}
 
 void Robot::TeleopPeriodic() {
+  drive_.SetTarget(controls_.getStrafe(), controls_.getRotation()); 
   drive_.TeleopPeriodic();
 }
 

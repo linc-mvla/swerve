@@ -31,6 +31,20 @@ class Point{
             y_ += p.y_;
         }
 
+        /***
+         * Rotates counterclockwise
+        */
+        Point rotate(double ang){//Radians
+            //[cos(a)  -sin(a)]
+            //[sin(a)  cos(-a)]
+            double nx = cos(ang) * x_ - sin(ang) * y_;
+            double ny = sin(ang) * x_ + cos(ang) * y_;
+            return Point(nx, ny);
+        }
+
+        /***
+         * Rotates counterclockwise
+        */
         void rotateThis(double ang){//Radians
             //[cos(a)  -sin(a)]
             //[sin(a)  cos(-a)]
@@ -38,6 +52,18 @@ class Point{
             double ny = sin(ang) * x_ + cos(ang) * y_;
             x_ = nx;
             y_ = ny;
+        }
+
+        void rotateClockwise90This(){
+            double xtemp = x_;
+            x_ = y_;
+            y_ = -xtemp;
+        }
+
+        void rotateCounterclockwise90This(){
+            double xtemp = x_;
+            x_ = -y_;
+            y_ = xtemp;
         }
 
         double getX(){return x_;}
@@ -65,6 +91,10 @@ class Point{
             x_ /= k;
             y_ /= k;
             return *this;
+        }
+
+        Point& operator+ (const Point& p){
+            return *(new Point(x_ + p.x_, y_ + p.y_));
         }
 
         Point& operator- (const Point& p){
