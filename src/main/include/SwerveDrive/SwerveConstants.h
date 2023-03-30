@@ -7,6 +7,10 @@
 
 #include "Geometry/Point.h"
 
+#ifndef M_PI
+#define M_PI 3.14159265358979323846	/* pi */
+#endif
+
 namespace SwerveConstants{
 
     struct SwerveStruct{
@@ -49,5 +53,5 @@ namespace SwerveConstants{
 
     const double WHEEL_RADIUS = 2.0; //Meters
     const double TICKS_PER_ROTATION = 2048.0;
-    const double TICKS_PER_RADIAN = TICKS_PER_ROTATION / (2.0*M_PI);
+    const double TICKS_PER_RADIAN = (TICKS_PER_ROTATION / (2.0*M_PI));
 };
