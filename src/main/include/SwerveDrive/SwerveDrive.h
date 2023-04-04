@@ -27,6 +27,9 @@ class SwerveDrive{
         
         void setNAVX(AHRS* navx) {navx_ = navx;}
 
+        void enableShuffleboard(bool edit = false);
+        void disableSuffleboard();
+
     private:
         void updatePose();
 
@@ -42,4 +45,19 @@ class SwerveDrive{
         double lastUpdate_;
 
         AHRS* navx_;
+
+        struct ShuffleboardData{
+            bool initialized = false;
+            bool showDashboard = false;
+            bool edit = false;
+            frc::ShuffleboardTab* tab;
+            nt::GenericEntry *currAng, *currAngV, *currAngAccel,
+                             *currPosX, *currVX, *currXAccel,
+                             *currPosY, *currVY, *currYAccel,
+                             *targetVY, *targetVX,
+                             *volts;
+        };
+
+        ShuffleboardData shuffData_;
+        void printShuffleboard();
 };

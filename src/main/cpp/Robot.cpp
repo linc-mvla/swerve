@@ -10,6 +10,7 @@
 
 void Robot::RobotInit() {
   navx_ = new AHRS(RobotConstants::NAVX::PORT);
+  drive_.setNAVX(navx_);
 }
 
 /**
@@ -21,6 +22,9 @@ void Robot::RobotInit() {
  * LiveWindow and SmartDashboard integrated updating.
  */
 void Robot::RobotPeriodic() {
+  if(controls_.isZero()){
+    drive_.zero();
+  }
   drive_.Periodic();
 }
 

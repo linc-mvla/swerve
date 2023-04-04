@@ -8,6 +8,7 @@ SwerveDrive::SwerveDrive(std::string name):
 {
     for(int i = 0; i < SwerveConstants::NUMSWERVE; i++){
         modules_[i] = SwerveModule(SwerveConstants::MODULES[i]);
+        modules_[i].enableShuffleboard();
     }
     reset();
 }
@@ -19,6 +20,10 @@ void SwerveDrive::reset(){
 
 void SwerveDrive::zero(){
     SwervePose::zero(currentPose_);
+    navx_->ZeroYaw();
+    for(SwerveModule& module : modules_){
+        module.zero();
+    }
 }
 
 void SwerveDrive::Periodic(){
@@ -72,6 +77,20 @@ void SwerveDrive::DisabledPeriodic(){
     for(SwerveModule& module : modules_){
         module.DisabledPeriodic();
     }
+}
+
+void SwerveDrive::enableShuffleboard(bool edit){
+    shuffData_.showDashboard = true;
+    shuffData_.edit = edit;
+    if(shuffData_.initialized){
+        return;
+    }
+    shuffData_.initialized = true;
+    shuffData_.tab = &frc::Shuffleboard::GetTab(name_ + " Swerve Drive");
+}
+
+void SwerveDrive::disableSuffleboard(){
+    shuffData_.showDashboard = false;
 }
 
 void SwerveDrive::SetTarget(Vector v, double angV, bool volts){

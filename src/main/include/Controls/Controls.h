@@ -9,6 +9,7 @@ class Controls{
     public:
         Vector getStrafe();
         double getRotation();
+        bool isZero();
         
     private:
         frc::Joystick lJoy_{ControlConstants::LJOY_PORT};

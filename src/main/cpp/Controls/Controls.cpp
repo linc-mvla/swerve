@@ -19,3 +19,7 @@ double Controls::getRotation(){
     }
     return w;
 }
+
+bool Controls::isZero(){
+    return rJoy_.GetRawButton(ControlConstants::ZERO);
+}

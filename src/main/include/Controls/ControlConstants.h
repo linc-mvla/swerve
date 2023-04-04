@@ -9,4 +9,7 @@ namespace ControlConstants{
 
     const int JOY_X = 0;
     const int JOY_Y = 1;
+
+    //RJOY
+    const int ZERO = 4;
 }
