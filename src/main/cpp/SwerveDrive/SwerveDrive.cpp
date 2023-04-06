@@ -31,6 +31,7 @@ void SwerveDrive::Periodic(){
         module.Periodic();
     }
     updatePose();
+
 }
 
 void SwerveDrive::updatePose(){
@@ -57,6 +58,12 @@ void SwerveDrive::updatePose(){
     currentPose_.vel = velocity;
 }
 
+void SwerveDrive::TeleopInit(){
+    for(SwerveModule& module : modules_){
+        module.TeleopInit();
+    }
+}
+
 void SwerveDrive::TeleopPeriodic(){
     for(SwerveModule& module : modules_){
         module.TeleopPeriodic();
@@ -70,6 +77,12 @@ void SwerveDrive::drive(){
         angVelVec.rotateClockwise90This();
         Vector moduleVec = targetPose_.vel.rotate(-currentPose_.ang) + (angVelVec*targetPose_.ang);
         module.setTarget(SwervePose::ModulePose{moduleVec.originDist(), moduleVec.getAng()});
+    }
+}
+
+void SwerveDrive::DisabledInit(){
+    for(SwerveModule& module : modules_){
+        module.DisabledInit();
     }
 }
 
@@ -87,10 +100,36 @@ void SwerveDrive::enableShuffleboard(bool edit){
     }
     shuffData_.initialized = true;
     shuffData_.tab = &frc::Shuffleboard::GetTab(name_ + " Swerve Drive");
+    shuffData_.currAng = shuffData_.tab->Add("Angle", toDeg(currentPose_.ang)).GetEntry();
+    shuffData_.currAngV = shuffData_.tab->Add("Angle V", toDeg(currentPose_.angVel)).GetEntry();
+    shuffData_.currAngAccel = shuffData_.tab->Add("Angle Accel", toDeg(currentPose_.angAccel)).GetEntry();
+    shuffData_.currPosX = shuffData_.tab->Add("Pos X", currentPose_.pos.getX()).GetEntry();
+    shuffData_.currPosX = shuffData_.tab->Add("Pos Y", currentPose_.pos.getY()).GetEntry();
+    shuffData_.currVX = shuffData_.tab->Add("Vel X", currentPose_.vel.getX()).GetEntry();
+    shuffData_.currVY = shuffData_.tab->Add("Vel Y", currentPose_.vel.getY()).GetEntry();
+    shuffData_.currXAccel = shuffData_.tab->Add("Accel X", currentPose_.accel.getX()).GetEntry();
+    shuffData_.currYAccel = shuffData_.tab->Add("Accel Y", currentPose_.accel.getY()).GetEntry();
+    shuffData_.volts = shuffData_.tab->Add("Volts", volts_).GetEntry();
 }
 
 void SwerveDrive::disableSuffleboard(){
     shuffData_.showDashboard = false;
+}
+
+void SwerveDrive::printShuffleboard(){
+    if(!shuffData_.showDashboard){
+        return;
+    }
+    shuffData_.currAng->SetDouble(toDeg(currentPose_.ang));
+    shuffData_.currAngV->SetDouble(toDeg(currentPose_.angVel));
+    shuffData_.currAngAccel->SetDouble(toDeg(currentPose_.angAccel));
+    shuffData_.currPosX->SetDouble(currentPose_.pos.getX());
+    shuffData_.currPosY->SetDouble(currentPose_.pos.getY());
+    shuffData_.currVX->SetDouble(currentPose_.vel.getX());
+    shuffData_.currVY->SetDouble(currentPose_.vel.getY());
+    shuffData_.currXAccel->SetDouble(currentPose_.accel.getX());
+    shuffData_.currYAccel->SetDouble(currentPose_.accel.getY());
+    
 }
 
 void SwerveDrive::SetTarget(Vector v, double angV, bool volts){

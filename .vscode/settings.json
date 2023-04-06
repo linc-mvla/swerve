@@ -89,6 +89,14 @@
     "variant": "cpp",
     "*.inc": "cpp",
     "*.mac": "cpp",
-    "matrixfunctions": "cpp"
+    "matrixfunctions": "cpp",
+    "cholesky": "cpp",
+    "core": "cpp",
+    "eigenvalues": "cpp",
+    "householder": "cpp",
+    "jacobi": "cpp",
+    "lu": "cpp",
+    "qr": "cpp",
+    "sparsecore": "cpp"
   }
 }

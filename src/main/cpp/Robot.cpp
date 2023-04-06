@@ -11,6 +11,7 @@
 void Robot::RobotInit() {
   navx_ = new AHRS(RobotConstants::NAVX::PORT);
   drive_.setNAVX(navx_);
+  drive_.enableShuffleboard(false);
 }
 
 /**
@@ -45,14 +46,18 @@ void Robot::AutonomousInit() {
 void Robot::AutonomousPeriodic() {
 }
 
-void Robot::TeleopInit() {}
+void Robot::TeleopInit() {
+  drive_.TeleopInit();
+}
 
 void Robot::TeleopPeriodic() {
   drive_.SetTarget(controls_.getStrafe(), controls_.getRotation()); 
   drive_.TeleopPeriodic();
 }
 
-void Robot::DisabledInit() {}
+void Robot::DisabledInit() {
+  drive_.DisabledInit();
+}
 
 void Robot::DisabledPeriodic() {
   drive_.DisabledPeriodic();

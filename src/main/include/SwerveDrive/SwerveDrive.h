@@ -16,7 +16,9 @@ class SwerveDrive{
         void zero();
 
         void Periodic();
+        void TeleopInit();
         void TeleopPeriodic();
+        void DisabledInit();
         void DisabledPeriodic();
 
         void drive();

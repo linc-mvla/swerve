@@ -24,11 +24,15 @@ class SwerveModule{
                                             pos_(other.pos_),
                                             driveMotor_(other.driveMotor_),
                                             turnMotor_(other.turnMotor_),
+                                            cancoder_(other.cancoder_),
+                                            encoderOffset_(other.encoderOffset_),
                                             turnPID_(other.turnPID_)
                                             {};
 
         void Periodic();
+        void TeleopInit();
         void TeleopPeriodic();
+        void DisabledInit();
         void DisabledPeriodic();
 
         void zero();
@@ -53,6 +57,9 @@ class SwerveModule{
         WPI_TalonFX* turnMotor_;
         units::volt_t turnVolts_{0.0};
         double maxTurnVolts_ = SwerveConstants::TURN_MAX_VOLTS;
+
+        WPI_CANCoder* cancoder_;
+        double encoderOffset_;
 
         frc::PIDController turnPID_{0, 0, 0};
         SwervePose::ModulePose targetPose_;//either m/s or volts for drive

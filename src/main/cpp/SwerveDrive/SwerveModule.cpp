@@ -6,10 +6,15 @@ using namespace GeometryHelper;
 SwerveModule::SwerveModule(SwerveConstants::SwerveStruct swerveMod):
     name_(swerveMod.name),
     pos_(swerveMod.pos),
-    turnPID_(swerveMod.turnPID)
+    turnPID_(swerveMod.turnPID),
+    encoderOffset_(swerveMod.encoderOffset)
 {
     driveMotor_ = new WPI_TalonFX(swerveMod.driveID);
     turnMotor_ = new WPI_TalonFX(swerveMod.turnID);
+    cancoder_ = new WPI_CANCoder(swerveMod.encoderID);
+
+    driveMotor_->SetNeutralMode(NeutralMode::Coast);
+    turnMotor_->SetNeutralMode(NeutralMode::Coast);
     if(shuffData_.showDashboard){
         enableShuffleboard();
     }
@@ -17,7 +22,8 @@ SwerveModule::SwerveModule(SwerveConstants::SwerveStruct swerveMod):
 
 void SwerveModule::Periodic(){
     //Calc velocity
-    double wheelAng = turnMotor_->GetSelectedSensorPosition() / SwerveConstants::TICKS_PER_RADIAN;
+    //double wheelAng = turnMotor_->GetSelectedSensorPosition() / SwerveConstants::TICKS_PER_RADIAN;
+    double wheelAng = toRad(cancoder_->GetAbsolutePosition() + encoderOffset_);
     if(inverted_){
         wheelAng += M_PI;
     }
@@ -29,6 +35,11 @@ void SwerveModule::Periodic(){
 
     printShuffleboard();
 }
+
+void SwerveModule::TeleopInit(){
+    driveMotor_->SetNeutralMode(NeutralMode::Brake);
+    turnMotor_->SetNeutralMode(NeutralMode::Brake);
+};
 
 void SwerveModule::TeleopPeriodic(){
     double driveTarg = std::clamp(targetPose_.speed, -maxDriveVolts_, maxDriveVolts_);
@@ -48,6 +59,11 @@ void SwerveModule::TeleopPeriodic(){
     turnTarg = std::clamp(turnTarg, -maxTurnVolts_, maxTurnVolts_);
     turnVolts_ = units::volt_t(turnTarg);
     turnMotor_->SetVoltage(turnVolts_);
+}
+
+void SwerveModule::DisabledInit(){
+    driveMotor_->SetNeutralMode(NeutralMode::Coast);
+    turnMotor_->SetNeutralMode(NeutralMode::Coast);
 }
 
 void SwerveModule::DisabledPeriodic(){
