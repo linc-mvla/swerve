@@ -11,10 +11,17 @@
 #include "Geometry/Point.h"
 #include "SwervePose.h"
 #include "SwerveConstants.h"
+#include "ShuffleboardSender/ShuffleboardSender.h"
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846	/* pi */
 #endif
+
+#ifndef SHUFFLEBOARD_EDIT
+#define SHUFFLEBOARD_EDIT true
+#endif
+
+#define SHUFFLEBOARD_PRINT
 
 class SwerveModule{
     public:
@@ -27,6 +34,9 @@ class SwerveModule{
                                             cancoder_(other.cancoder_),
                                             encoderOffset_(other.encoderOffset_),
                                             turnPID_(other.turnPID_)
+                                            #ifdef SHUFFLEBOARD_PRINT
+                                            ,ShuffData_(other.ShuffData_)
+                                            #endif
                                             {};
 
         void Periodic();
@@ -38,9 +48,6 @@ class SwerveModule{
         void zero();
 
         void setTarget(SwervePose::ModulePose pose, bool volts = true);
-
-        void enableShuffleboard(bool edit = false);
-        void disableSuffleboard();
 
         Point getPos();
         Vector getVel();
@@ -71,20 +78,8 @@ class SwerveModule{
         Point pos_; //Position on robot, accessed by swerveDrive, stored in module
 
         bool inverted_;
-        
-        struct ShuffleboardData{
-            bool initialized = false;
-            bool showDashboard = false;
-            bool edit = false;
-            frc::ShuffleboardTab* tab;
-            nt::GenericEntry *driveVolts, *turnVolts,
-                             *maxTurn, *maxDrive,
-                             *turnP, *turnI, *turnD,
-                             *targAng, *targVel, *targVolts,
-                             *currAng, *currVel,
-                             *inverted;
-        };
 
-        ShuffleboardData shuffData_;
-        void printShuffleboard();
+        #ifdef SHUFFLEBOARD_PRINT
+        ShuffleboardSender ShuffData_;
+        #endif
 };
