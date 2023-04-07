@@ -7,10 +7,13 @@
 
 #include "ShuffleboardItem.h"
 
+/**
+ * Class to send many variables to Shuffleboard and edit them
+*/
 class ShuffleboardData{
     public:
         /**
-         * Creates a tab with name, bool for editing variables
+         * Creates a tab with name
         */
         ShuffleboardData(std::string name);
         /**

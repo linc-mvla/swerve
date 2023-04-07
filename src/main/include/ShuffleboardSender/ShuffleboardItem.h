@@ -17,7 +17,6 @@ class ShuffleboardItem{
         void send();
         void edit();
 
-
     private: 
         bool edit_;
 
