@@ -18,7 +18,7 @@ namespace SwervePose{
         double ang;
     };
 
-    static void zero(Pose pose){
+    static void zero(Pose& pose){
         pose.pos = {0.0,0.0};
         pose.vel = {0.0,0.0};
         pose.accel = {0.0,0.0};

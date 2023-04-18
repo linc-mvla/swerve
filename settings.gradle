@@ -25,3 +25,7 @@ pluginManagement {
         }
     }
 }
+
+include "Controls"
+include "ShuffleboardSender"
+include "SwerveDrive"
