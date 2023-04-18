@@ -1,5 +1,3 @@
-#pragma once
-
 #include "Controls/Controls.h"
 
 Vector Controls::getStrafe(){

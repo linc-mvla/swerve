@@ -50,11 +50,11 @@ class SwerveModule{
     private:
         std::string name_;
 
-        WPI_TalonFX* driveMotor_;
+        WPI_TalonFX* driveMotor_ = nullptr;
         units::volt_t driveVolts_{0.0};
         double maxDriveVolts_ = SwerveConstants::DRIVE_MAX_VOLTS;//volts
         
-        WPI_TalonFX* turnMotor_;
+        WPI_TalonFX* turnMotor_ = nullptr;
         units::volt_t turnVolts_{0.0};
         double maxTurnVolts_ = SwerveConstants::TURN_MAX_VOLTS;
 
@@ -68,7 +68,7 @@ class SwerveModule{
         SwervePose::ModulePose currPose_; //normal units (m, rad)
         Vector vel_;
 
-        Point pos_; //Position on robot, accessed by swerveDrive, stored in module
+        Point pos_ = {0, 0}; //Position on robot, accessed by swerveDrive, stored in module
 
         bool inverted_;
         
