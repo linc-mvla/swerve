@@ -6,7 +6,7 @@
 #include <frc/shuffleboard/Shuffleboard.h>
 
 #include "ShuffleboardItem.h"
-#include "SwerveDrive/SwervePose.h"
+#include "SwervePose.h"
 
 /**
  * Class to send many variables to Shuffleboard and edit them

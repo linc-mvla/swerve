@@ -1,6 +1,6 @@
-#include "SwerveDrive/SwerveModule.h"
+#include "SwerveModule.h"
 
-#include "Geometry/GeometryHelper.h"
+#include "GeometryHelper.h"
 using namespace GeometryHelper;
 
 SwerveModule::SwerveModule(SwerveConstants::SwerveStruct swerveMod):

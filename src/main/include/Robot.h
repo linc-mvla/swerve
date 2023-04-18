@@ -10,8 +10,8 @@
 #include <AHRS.h>
 
 #include "RobotConstants.h"
-#include "SwerveDrive/SwerveDrive.h"
-#include "Controls/Controls.h"
+#include "SwerveDrive.h"
+#include "Controls.h"
 
 class Robot : public frc::TimedRobot {
     public:

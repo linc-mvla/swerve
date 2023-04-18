@@ -8,7 +8,7 @@
 #include <frc2/command/PIDCommand.h>
 #include <frc/shuffleboard/Shuffleboard.h>
 
-#include "Geometry/Point.h"
+#include "Point.h"
 #include "SwervePose.h"
 #include "SwerveConstants.h"
 

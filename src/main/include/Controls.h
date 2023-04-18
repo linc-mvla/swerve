@@ -2,7 +2,7 @@
 
 #include <frc/Joystick.h>
 
-#include "Geometry/Point.h"
+#include "Point.h"
 #include "ControlConstants.h"
 
 class Controls{

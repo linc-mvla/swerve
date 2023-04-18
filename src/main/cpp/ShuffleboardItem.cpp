@@ -1,4 +1,4 @@
-#include "ShuffleboardSender/ShuffleboardItem.h"
+#include "ShuffleboardItem.h"
 
 ShuffleboardItem::ShuffleboardItem(std::string name, double* o, frc::ShuffleboardTab* tab, bool edit):
     type_(DOUBLE)

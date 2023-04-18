@@ -1,4 +1,4 @@
-#include "Controls/Controls.h"
+#include "Controls.h"
 
 Vector Controls::getStrafe(){
     double x = rJoy_.GetRawAxis(ControlConstants::JOY_X);

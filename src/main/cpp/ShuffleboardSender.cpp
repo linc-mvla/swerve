@@ -1,4 +1,4 @@
-#include "ShuffleboardSender/ShuffleboardSender.h"
+#include "ShuffleboardSender.h"
 
 ShuffleboardSender::ShuffleboardSender(std::string name){
     tab_ = &frc::Shuffleboard::GetTab(name);
