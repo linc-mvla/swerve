@@ -8,9 +8,7 @@ SwerveDrive::SwerveDrive(std::string name):
 {
     for(int i = 0; i < SwerveConstants::NUMSWERVE; i++){
         modules_[i] = SwerveModule(SwerveConstants::MODULES[i]);
-        modules_[i].enableShuffleboard();
     }
-    reset();
 }
 
 void SwerveDrive::reset(){
@@ -95,6 +93,9 @@ void SwerveDrive::DisabledPeriodic(){
 void SwerveDrive::enableShuffleboard(bool edit){
     shuffData_.showDashboard = true;
     shuffData_.edit = edit;
+    for(SwerveModule& module : modules_){
+        module.enableShuffleboard(edit);
+    }
     if(shuffData_.initialized){
         return;
     }

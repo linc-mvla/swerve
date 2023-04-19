@@ -1,0 +1,76 @@
+Resolve mutations for :deployprogramStartfrcCpproborio (Thread[Execution worker Thread 3,5,main]) started.
+Resolve mutations for :deployprogramStartfrcCpproborio (Thread[Execution worker Thread 3,5,main]) completed. Took 0.0 secs.
+:deployprogramStartfrcCpproborio (Thread[Execution worker,5,main]) started.
+Resolve mutations for :writeTargetDebugInforoborio (Thread[Execution worker Thread 3,5,main]) started.
+Resolve mutations for :writeTargetDebugInforoborio (Thread[Execution worker Thread 3,5,main]) completed. Took 0.0 secs. 
+:writeTargetDebugInforoborio (Thread[Execution worker Thread 3,5,main]) started.
+
+> Task :writeTargetDebugInforoborio
+Caching disabled for task ':writeTargetDebugInforoborio' because:
+  Build cache is disabled
+Task ':writeTargetDebugInforoborio' is not up-to-date because:
+  Task.upToDateWhen is false.
+Transforming wpilibNewCommands-cpp-2023.1.1-sources.zip (edu.wpi.first.wpilibNewCommands:wpilibNewCommands-cpp:2023.1.1) with UnzipTransform
+Transforming navx-frc-cpp-2023.0.3-sources.zip (com.kauailabs.navx.frc:navx-frc-cpp:2023.0.3) with UnzipTransform       
+Transforming wpilibc-cpp-2023.1.1-sources.zip (edu.wpi.first.wpilibc:wpilibc-cpp:2023.1.1) with UnzipTransform
+Transforming ntcore-cpp-2023.1.1-sources.zip (edu.wpi.first.ntcore:ntcore-cpp:2023.1.1) with UnzipTransform
+Transforming hal-cpp-2023.1.1-sources.zip (edu.wpi.first.hal:hal-cpp:2023.1.1) with UnzipTransform
+Transforming wpimath-cpp-2023.1.1-sources.zip (edu.wpi.first.wpimath:wpimath-cpp:2023.1.1) with UnzipTransform
+Transforming wpinet-cpp-2023.1.1-sources.zip (edu.wpi.first.wpinet:wpinet-cpp:2023.1.1) with UnzipTransform
+Transforming wpiutil-cpp-2023.1.1-sources.zip (edu.wpi.first.wpiutil:wpiutil-cpp:2023.1.1) with UnzipTransform
+Transforming cameraserver-cpp-2023.1.1-sources.zip (edu.wpi.first.cameraserver:cameraserver-cpp:2023.1.1) with UnzipTransform
+Transforming cscore-cpp-2023.1.1-sources.zip (edu.wpi.first.cscore:cscore-cpp:2023.1.1) with UnzipTransform
+Transforming apriltag-cpp-2023.1.1-sources.zip (edu.wpi.first.apriltag:apriltag-cpp:2023.1.1) with UnzipTransform       
+Transforming opencv-cpp-4.6.0-4-sources.zip (edu.wpi.first.thirdparty.frc2023.opencv:opencv-cpp:4.6.0-4) with UnzipTransform
+:writeTargetDebugInforoborio (Thread[Execution worker Thread 3,5,main]) completed. Took 0.11 secs.
+Resolve mutations for :writeDebugInfo (Thread[Execution worker Thread 3,5,main]) started.
+Resolve mutations for :writeDebugInfo (Thread[Execution worker Thread 3,5,main]) completed. Took 0.0 secs.
+:writeDebugInfo (Thread[Execution worker Thread 9,5,main]) started.
+producer locations for task group 0 (Thread[Execution worker Thread 3,5,main]) started.
+producer locations for task group 0 (Thread[Execution worker Thread 3,5,main]) completed. Took 0.0 secs.
+
+> Task :writeDebugInfo
+Caching disabled for task ':writeDebugInfo' because:
+  Build cache is disabled
+Task ':writeDebugInfo' is not up-to-date because:
+  Task.upToDateWhen is false.
+:writeDebugInfo (Thread[Execution worker Thread 9,5,main]) completed. Took 0.016 secs.
+
+> Task :deployprogramStartfrcCpproborio
+Caching disabled for task ':deployprogramStartfrcCpproborio' because:
+  Build cache is disabled
+Task ':deployprogramStartfrcCpproborio' is not up-to-date because:
+  Task has not declared any outputs despite executing actions.
+    -C-> sync @ /home/lvuser
+Log :     -C-> sync @ /home/lvuser
+    -C-> . /etc/profile.d/natinst-path.sh; /usr/local/frc/bin/frcKillRobot.sh -t -r 2> /dev/null @ /home/lvuser
+Log :     -C-> . /etc/profile.d/natinst-path.sh; /usr/local/frc/bin/frcKillRobot.sh -t -r 2> /dev/null @ /home/lvuser   
+:deployprogramStartfrcCpproborio (Thread[Execution worker,5,main]) completed. Took 2.53 secs.
+Resolve mutations for :deployStageroborioProgramStart (Thread[Execution worker Thread 9,5,main]) started.
+Resolve mutations for :deployStageroborioProgramStart (Thread[Execution worker Thread 9,5,main]) completed. Took 0.0 secs.
+:deployStageroborioProgramStart (Thread[Execution worker Thread 9,5,main]) started.
+
+> Task :deployStageroborioProgramStart
+Skipping task ':deployStageroborioProgramStart' as it has no actions.
+:deployStageroborioProgramStart (Thread[Execution worker Thread 9,5,main]) completed. Took 0.0 secs.
+Resolve mutations for :deployStageroborioAfterProgramStart (Thread[Execution worker Thread 2,5,main]) started.
+Resolve mutations for :deployStageroborioAfterProgramStart (Thread[Execution worker Thread 2,5,main]) completed. Took 0.0 secs.
+:deployStageroborioAfterProgramStart (Thread[Execution worker,5,main]) started.
+
+> Task :deployStageroborioAfterProgramStart
+Skipping task ':deployStageroborioAfterProgramStart' as it has no actions.
+:deployStageroborioAfterProgramStart (Thread[Execution worker,5,main]) completed. Took 0.0 secs.
+Resolve mutations for :deployroborio (Thread[Execution worker Thread 2,5,main]) started.
+Resolve mutations for :deployroborio (Thread[Execution worker Thread 2,5,main]) completed. Took 0.0 secs.
+:deployroborio (Thread[Execution worker,5,main]) started.
+
+> Task :deployroborio
+Skipping task ':deployroborio' as it has no actions.
+:deployroborio (Thread[Execution worker,5,main]) completed. Took 0.0 secs.
+Resolve mutations for :deploy (Thread[Execution worker Thread 2,5,main]) started.
+Resolve mutations for :deploy (Thread[Execution worker Thread 2,5,main]) completed. Took 0.0 secs.
+:deploy (Thread[Execution worker,5,main]) started.
+
+> Task :deploy
+Skipping task ':deploy' as it has no actions.
+:deploy (Thread[Execution worker,5,main]) completed. Took 0.0 secs.
