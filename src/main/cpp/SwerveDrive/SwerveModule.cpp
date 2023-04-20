@@ -110,6 +110,7 @@ void SwerveModule::printShuffleboard(){
     if(!shuffData_.showDashboard){
         return;
     }
+    //std::cout<<name_<<"; Angle:"<<targetPose_.ang<<"; Speed:"<<targetPose_.speed<<std::endl;
     shuffData_.driveVolts->SetDouble(driveVolts_.value());
     shuffData_.turnVolts->SetDouble(turnVolts_.value());
     shuffData_.currAng->SetDouble(toDeg(currPose_.ang));
@@ -120,13 +121,17 @@ void SwerveModule::printShuffleboard(){
         turnPID_.SetP(shuffData_.turnP->GetBoolean(turnPID_.GetP()));
         turnPID_.SetI(shuffData_.turnI->GetBoolean(turnPID_.GetI()));
         turnPID_.SetD(shuffData_.turnD->GetBoolean(turnPID_.GetD()));
-        targetPose_.ang = shuffData_.targAng->GetDouble(toRad(targetPose_.ang));
-        targetPose_.speed = shuffData_.targVel->GetBoolean(targetPose_.speed);
+        //targetPose_.ang = shuffData_.targAng->GetDouble(toRad(targetPose_.ang));
+        //targetPose_.speed = shuffData_.targVel->GetBoolean(targetPose_.speed);
         volts_ = shuffData_.targVolts->GetBoolean(volts_);
     }
     shuffData_.targAng->SetDouble(toDeg(targetPose_.ang));
     shuffData_.targVel->SetDouble(targetPose_.speed);
     shuffData_.targVolts->SetBoolean(volts_);
+}
+
+std::string SwerveModule::getName(){
+    return name_;
 }
 
 Point SwerveModule::getPos(){

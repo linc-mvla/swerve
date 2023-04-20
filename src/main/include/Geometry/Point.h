@@ -1,10 +1,14 @@
 #pragma once
 
 #include <cmath>
+#include <string>
+#include <sstream>
+#include <iostream>
+
 class Point{
     public:
+        Point():x_(0.0), y_(0.0){};
         Point(double x, double y): x_(x), y_(y) {}
-        Point() = default;
         Point(const Point& other) : x_(other.x_), y_(other.y_) {}
 
         double originDist() {
@@ -70,6 +74,20 @@ class Point{
         double getY(){return y_;}
         void setX(double x){x_ = x;}
         void setY(double y){y_ = y;}
+
+        std::string toString(){
+            std::stringstream ss;
+            ss<<"("<<x_<<","<<y_<<")";
+            return ss.str();
+        }
+
+        void print(){
+            std::cout<<"("<<x_<<","<<y_<<")"<<std::endl;
+        }
+
+        void print(std::string name){
+            std::cout<<name<<": ("<<x_<<","<<y_<<")"<<std::endl;
+        }
 
         Point& operator= (const Point& p){
             x_ = p.x_;

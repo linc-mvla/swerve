@@ -1,7 +1,7 @@
 {
   "HALProvider": {
     "Other Devices": {
-      "Talon FX[4]": {
+      "CANCoder[6]": {
         "header": {
           "open": true
         }
@@ -16,6 +16,9 @@
   "NetworkTables": {
     "transitory": {
       "Shuffleboard": {
+        " Swerve Drive": {
+          "open": true
+        },
         "Back LeftSwerve Module": {
           "open": true
         },

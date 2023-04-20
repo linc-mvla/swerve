@@ -2,6 +2,7 @@
 
 #include <string>
 #include <array>
+#include <iostream>
 
 #include <AHRS.h>
 
@@ -29,7 +30,7 @@ class SwerveDrive{
         
         void setNAVX(AHRS* navx) {navx_ = navx;}
 
-        void enableShuffleboard(bool edit = false);
+        void enableShuffleboard(bool edit = false, bool module = false);
         void disableSuffleboard();
 
     private:

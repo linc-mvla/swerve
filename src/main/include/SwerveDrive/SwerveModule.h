@@ -2,6 +2,7 @@
 
 #include <string>
 #include <cmath>
+#include <iostream>
 #include <ctre/Phoenix.h>
 #include <units/voltage.h>
 
@@ -34,6 +35,7 @@ class SwerveModule{
         void enableShuffleboard(bool edit = false);
         void disableSuffleboard();
 
+        std::string getName();
         Point getPos();
         Vector getVel();
 
