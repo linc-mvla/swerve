@@ -68,6 +68,8 @@ class Point{
 
         double getX(){return x_;}
         double getY(){return y_;}
+        void setX(double x){x_ = x;}
+        void setY(double y){y_ = y;}
 
         Point& operator= (const Point& p){
             x_ = p.x_;

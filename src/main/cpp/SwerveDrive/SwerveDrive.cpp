@@ -7,7 +7,7 @@ SwerveDrive::SwerveDrive(std::string name):
     name_(name)
 {
     for(int i = 0; i < SwerveConstants::NUMSWERVE; i++){
-        modules_[i] = SwerveModule(SwerveConstants::MODULES[i]);
+        modules_[i] = new SwerveModule(SwerveConstants::MODULES[i]);
     }
 }
 
@@ -19,17 +19,14 @@ void SwerveDrive::reset(){
 void SwerveDrive::zero(){
     SwervePose::zero(currentPose_);
     navx_->ZeroYaw();
-    for(SwerveModule& module : modules_){
-        module.zero();
-    }
 }
 
 void SwerveDrive::Periodic(){
-    for(SwerveModule& module : modules_){
-        module.Periodic();
+    for(SwerveModule* module : modules_){
+        module->Periodic();
     }
     updatePose();
-
+    printShuffleboard();
 }
 
 void SwerveDrive::updatePose(){
@@ -43,12 +40,14 @@ void SwerveDrive::updatePose(){
     currentPose_.angVel = newAngVel;
     currentPose_.angAccel = newAngAccel;
 
+    //Average the velocities
     Vector velocity{0.0, 0.0};
-    for(SwerveModule& module : modules_){
-        velocity += module.getVel();
+    for(SwerveModule* module : modules_){
+        velocity += module->getVel();
     }
     velocity /= SwerveConstants::NUMSWERVE;
 
+    //Field-Orient
     velocity.rotateThis(-currentPose_.ang);
 
     currentPose_.pos += velocity * dt;
@@ -57,50 +56,60 @@ void SwerveDrive::updatePose(){
 }
 
 void SwerveDrive::TeleopInit(){
-    for(SwerveModule& module : modules_){
-        module.TeleopInit();
+    for(SwerveModule* module : modules_){
+        module->TeleopInit(); //Motors to brake to not be scooted by enemy
     }
 }
 
 void SwerveDrive::TeleopPeriodic(){
-    for(SwerveModule& module : modules_){
-        module.TeleopPeriodic();
+    drive(); //Set module targets
+    for(SwerveModule* module : modules_){
+        module->TeleopPeriodic(); //Drive motors and stuff
     }
-    drive();
 }
 
+/***
+ * Based off the targetPose_, it will assign a target position for the modules
+*/
 void SwerveDrive::drive(){
-    for(SwerveModule& module : modules_){
-        Vector angVelVec = module.getPos() - pivot_;
-        angVelVec.rotateClockwise90This();
-        Vector moduleVec = targetPose_.vel.rotate(-currentPose_.ang) + (angVelVec*targetPose_.ang);
-        module.setTarget(SwervePose::ModulePose{moduleVec.originDist(), moduleVec.getAng()});
+    for(SwerveModule* module : modules_){
+        Vector angVelVec = module->getPos() - pivot_; //Get vector from pivot to module
+        angVelVec.rotateClockwise90This(); //Set to vector tangent to the path of rotation
+        //Adds tangential velocity, which is just the target tangential velocity (rotated by the robot's pose)
+        //Adds the rotational velocity, which is the angVelVec times the angular velocity: v = r*w
+        Vector moduleVec = targetPose_.vel.rotate(-currentPose_.ang) + (angVelVec*targetPose_.angVel);
+        module->setTarget(SwervePose::ModulePose{moduleVec.originDist(), moduleVec.getAng()});
     }
 }
 
 void SwerveDrive::DisabledInit(){
-    for(SwerveModule& module : modules_){
-        module.DisabledInit();
+    for(SwerveModule* module : modules_){
+        module->DisabledInit(); //Sets the motor mode to coast (so robot can be scooted by ppl)
     }
 }
 
 void SwerveDrive::DisabledPeriodic(){
-    for(SwerveModule& module : modules_){
-        module.DisabledPeriodic();
+    for(SwerveModule* module : modules_){
+        module->DisabledPeriodic(); //Tell robot to actively do nothing
     }
 }
 
 void SwerveDrive::enableShuffleboard(bool edit){
     shuffData_.showDashboard = true;
     shuffData_.edit = edit;
-    for(SwerveModule& module : modules_){
-        module.enableShuffleboard(edit);
+    for(SwerveModule* module : modules_){
+        module->enableShuffleboard(edit);
     }
     if(shuffData_.initialized){
         return;
     }
     shuffData_.initialized = true;
-    shuffData_.tab = &frc::Shuffleboard::GetTab(name_ + " Swerve Drive");
+    if(name_.empty()){
+        shuffData_.tab = &frc::Shuffleboard::GetTab("Swerve Drive");
+    }
+    else{
+        shuffData_.tab = &frc::Shuffleboard::GetTab(name_ + " Swerve Drive");
+    }
     shuffData_.currAng = shuffData_.tab->Add("Angle", toDeg(currentPose_.ang)).GetEntry();
     shuffData_.currAngV = shuffData_.tab->Add("Angle V", toDeg(currentPose_.angVel)).GetEntry();
     shuffData_.currAngAccel = shuffData_.tab->Add("Angle Accel", toDeg(currentPose_.angAccel)).GetEntry();
@@ -110,6 +119,9 @@ void SwerveDrive::enableShuffleboard(bool edit){
     shuffData_.currVY = shuffData_.tab->Add("Vel Y", currentPose_.vel.getY()).GetEntry();
     shuffData_.currXAccel = shuffData_.tab->Add("Accel X", currentPose_.accel.getX()).GetEntry();
     shuffData_.currYAccel = shuffData_.tab->Add("Accel Y", currentPose_.accel.getY()).GetEntry();
+    shuffData_.targetVX = shuffData_.tab->Add("Target Vel X", targetPose_.vel.getX()).GetEntry();
+    shuffData_.targetVY = shuffData_.tab->Add("Target Vel Y", targetPose_.vel.getY()).GetEntry();
+    shuffData_.targetVAng = shuffData_.tab->Add("Target Ang Vel", targetPose_.angVel).GetEntry();
     shuffData_.volts = shuffData_.tab->Add("Volts", volts_).GetEntry();
 }
 
@@ -130,7 +142,11 @@ void SwerveDrive::printShuffleboard(){
     shuffData_.currVY->SetDouble(currentPose_.vel.getY());
     shuffData_.currXAccel->SetDouble(currentPose_.accel.getX());
     shuffData_.currYAccel->SetDouble(currentPose_.accel.getY());
-    
+    if(shuffData_.edit){
+        targetPose_.vel.setX(shuffData_.targetVX->GetDouble(targetPose_.vel.getX()));
+        targetPose_.vel.setY(shuffData_.targetVY->GetDouble(targetPose_.vel.getY()));
+        targetPose_.angVel = shuffData_.targetVAng->GetDouble(targetPose_.angVel);
+    }
 }
 
 void SwerveDrive::SetTarget(Vector v, double angV, bool volts){

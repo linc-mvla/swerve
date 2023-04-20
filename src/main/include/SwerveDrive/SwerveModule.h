@@ -20,14 +20,6 @@ class SwerveModule{
     public:
         SwerveModule() = default;
         SwerveModule(SwerveConstants::SwerveStruct swerveMod);
-        SwerveModule(SwerveModule& other) : name_(other.name_),
-                                            pos_(other.pos_),
-                                            driveMotor_(other.driveMotor_),
-                                            turnMotor_(other.turnMotor_),
-                                            cancoder_(other.cancoder_),
-                                            encoderOffset_(other.encoderOffset_),
-                                            turnPID_(other.turnPID_)
-                                            {};
 
         void Periodic();
         void TeleopInit();
@@ -45,20 +37,18 @@ class SwerveModule{
         Point getPos();
         Vector getVel();
 
-        SwerveModule& operator= (const SwerveModule& module);
-
     private:
-        std::string name_;
+        const std::string name_;
 
-        WPI_TalonFX* driveMotor_ = nullptr;
+        WPI_TalonFX driveMotor_;
         units::volt_t driveVolts_{0.0};
         double maxDriveVolts_ = SwerveConstants::DRIVE_MAX_VOLTS;//volts
         
-        WPI_TalonFX* turnMotor_ = nullptr;
+        WPI_TalonFX turnMotor_;
         units::volt_t turnVolts_{0.0};
         double maxTurnVolts_ = SwerveConstants::TURN_MAX_VOLTS;
 
-        WPI_CANCoder* cancoder_;
+        WPI_CANCoder cancoder_;
         double encoderOffset_;
 
         frc::PIDController turnPID_{0, 0, 0};
