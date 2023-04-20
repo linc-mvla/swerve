@@ -2,6 +2,7 @@
 
 #include <frc2/command/PIDCommand.h>
 #include <frc/shuffleboard/Shuffleboard.h>
+#include <units/voltage.h>
 
 /**
  * Class to send objects to shuffleboard
@@ -13,6 +14,7 @@ class ShuffleboardItem{
         ShuffleboardItem(std::string name, double* o,             frc::ShuffleboardTab* tab,  bool edit = false);
         ShuffleboardItem(std::string name, bool* o,               frc::ShuffleboardTab* tab,  bool edit = false);
         ShuffleboardItem(std::string name, int* o,                frc::ShuffleboardTab* tab,  bool edit = false);
+        ShuffleboardItem(std::string name, units::volt_t* o,      frc::ShuffleboardTab* tab,  bool edit = false);
         ShuffleboardItem(std::string name, frc::PIDController* o, frc::ShuffleboardTab* tab,  bool edit = false);
         void send();
         void edit();
@@ -24,6 +26,7 @@ class ShuffleboardItem{
             DOUBLE,
             BOOL,
             INT,
+            VOLT,
             PIDCONTROLLER
         };
 
@@ -33,6 +36,7 @@ class ShuffleboardItem{
             double *d;
             bool *b;
             int *i;
+            units::volt_t *volt;
             frc::PIDController *pid;
         } value_;
 

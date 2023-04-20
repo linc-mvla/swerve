@@ -21,6 +21,13 @@ ShuffleboardItem::ShuffleboardItem(std::string name, int* o, frc::ShuffleboardTa
     entry_.one = tab->Add(name, *o).GetEntry();   
 };
 
+ShuffleboardItem::ShuffleboardItem(std::string name, units::volt_t* o, frc::ShuffleboardTab* tab, bool edit):
+    type_(VOLT)
+{
+    value_.volt = o;
+    entry_.one = tab->Add(name, o->value()).GetEntry();   
+};
+
 ShuffleboardItem::ShuffleboardItem(std::string name, frc::PIDController* o, frc::ShuffleboardTab* tab, bool edit):
     type_(PIDCONTROLLER)
 {

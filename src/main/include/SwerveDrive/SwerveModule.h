@@ -18,12 +18,6 @@
 #define M_PI 3.14159265358979323846	/* pi */
 #endif
 
-#ifndef SHUFFLEBOARD_EDIT
-#define SHUFFLEBOARD_EDIT true
-#endif
-
-#define SHUFFLEBOARD_PRINT
-
 class SwerveModule{
     public:
         SwerveModule() = default;
@@ -71,7 +65,5 @@ class SwerveModule{
 
         bool inverted_;
 
-        #ifdef SHUFFLEBOARD_PRINT
         ShuffleboardSender ShuffData_;
-        #endif
 };

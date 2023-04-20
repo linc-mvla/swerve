@@ -10,16 +10,11 @@ SwerveModule::SwerveModule(SwerveConstants::SwerveStruct swerveMod):
     cancoder_(swerveMod.encoderID),
     pos_(swerveMod.pos),
     turnPID_(swerveMod.turnPID),
-    encoderOffset_(swerveMod.encoderOffset)
-    #ifdef SHUFFLEBOARD_PRINT
-    ,ShuffData_(swerveMod.name)
-    #endif
+    encoderOffset_(swerveMod.encoderOffset),
+    ShuffData_(name_)
 {
     driveMotor_.SetNeutralMode(NeutralMode::Coast);
     turnMotor_.SetNeutralMode(NeutralMode::Coast);
-    if(shuffData_.showDashboard){
-        enableShuffleboard();
-    }
 }
 
 void SwerveModule::Periodic(){
@@ -81,13 +76,8 @@ void SwerveModule::setTarget(SwervePose::ModulePose pose, bool volts){
 }
 
 void SwerveModule::enableShuffleboard(bool edit){
-    shuffData_.showDashboard = true;
-    shuffData_.edit = edit;
-    if(shuffData_.initialized){
-        return;
-    }
-    shuffData_.initialized = true;
-    shuffData_.tab = &frc::Shuffleboard::GetTab(name_ + " Swerve Module");
+    ShuffData_.Initialize(edit);
+    ShuffData_.add("Drive Volts", &driveVolts_);
     shuffData_.driveVolts = shuffData_.tab->Add("Drive Volts", driveVolts_.value()).GetEntry();
     shuffData_.turnVolts = shuffData_.tab->Add("Turn Volts", turnVolts_.value()).GetEntry();
     shuffData_.maxDrive = shuffData_.tab->Add("Drive Max Volts", maxDriveVolts_).GetEntry();
