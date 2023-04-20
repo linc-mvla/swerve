@@ -11,7 +11,8 @@
 void Robot::RobotInit() {
   navx_ = new AHRS(RobotConstants::NAVX::PORT);
   drive_.setNAVX(navx_);
-  drive_.enableShuffleboard(false);
+  drive_.enableShuffleboard(true, true);
+  drive_.reset();
 }
 
 /**
@@ -23,9 +24,11 @@ void Robot::RobotInit() {
  * LiveWindow and SmartDashboard integrated updating.
  */
 void Robot::RobotPeriodic() {
+  #if USE_CONTROLLER
   if(controls_.isZero()){
     drive_.zero();
   }
+  #endif
   drive_.Periodic();
 }
 
@@ -51,7 +54,9 @@ void Robot::TeleopInit() {
 }
 
 void Robot::TeleopPeriodic() {
+  #if USE_CONTROLLER
   drive_.SetTarget(controls_.getStrafe(), controls_.getRotation()); 
+  #endif
   drive_.TeleopPeriodic();
 }
 

@@ -1,4 +1,13 @@
 {
+  "HALProvider": {
+    "Other Devices": {
+      "CANCoder[6]": {
+        "header": {
+          "open": true
+        }
+      }
+    }
+  },
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo"
@@ -7,6 +16,9 @@
   "NetworkTables": {
     "transitory": {
       "Shuffleboard": {
+        " Swerve Drive": {
+          "open": true
+        },
         "Back LeftSwerve Module": {
           "open": true
         },

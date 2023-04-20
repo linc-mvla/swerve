@@ -4,14 +4,20 @@
 
 #pragma once
 
-#include <string>
-
 #include <frc/TimedRobot.h>
+
+#include <string>
+#include <iostream>
+
 #include <AHRS.h>
 
 #include "RobotConstants.h"
 #include "SwerveDrive/SwerveDrive.h"
+
+#define USE_CONTROLLER false
+#if USE_CONTROLLER
 #include "Controls/Controls.h"
+#endif
 
 class Robot : public frc::TimedRobot {
     public:
@@ -29,7 +35,9 @@ class Robot : public frc::TimedRobot {
         void SimulationPeriodic() override;
 
     private:
-        SwerveDrive drive_{"Mr."};
+        SwerveDrive drive_{""};
         AHRS* navx_;
+        #if USE_CONTROLLER
         Controls controls_;
+        #endif
 };

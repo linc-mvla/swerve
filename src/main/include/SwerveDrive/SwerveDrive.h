@@ -2,6 +2,7 @@
 
 #include <string>
 #include <array>
+#include <iostream>
 
 #include <AHRS.h>
 
@@ -29,14 +30,14 @@ class SwerveDrive{
         
         void setNAVX(AHRS* navx) {navx_ = navx;}
 
-        void enableShuffleboard(bool edit = false);
+        void enableShuffleboard(bool edit = false, bool module = false);
         void disableSuffleboard();
 
     private:
         void updatePose();
 
-        std::string name_;
-        SwerveModule modules_[SwerveConstants::NUMSWERVE];
+        const std::string name_;
+        SwerveModule* modules_[SwerveConstants::NUMSWERVE];
 
         Point pivot_{0.0, 0.0};
 
@@ -56,7 +57,7 @@ class SwerveDrive{
             nt::GenericEntry *currAng, *currAngV, *currAngAccel,
                              *currPosX, *currVX, *currXAccel,
                              *currPosY, *currVY, *currYAccel,
-                             *targetVY, *targetVX,
+                             *targetVY, *targetVX, *targetVAng,
                              *volts;
         };
 
