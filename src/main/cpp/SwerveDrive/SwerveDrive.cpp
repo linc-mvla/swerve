@@ -18,7 +18,9 @@ void SwerveDrive::reset(){
 
 void SwerveDrive::zero(){
     SwervePose::zero(currentPose_);
-    navx_->ZeroYaw();
+    if(navx_){
+        navx_->ZeroYaw();
+    }
 }
 
 void SwerveDrive::Periodic(){
@@ -33,12 +35,14 @@ void SwerveDrive::updatePose(){
     double time = frc::Timer::GetFPGATimestamp().value();
     double dt = time - lastUpdate_;
 
-    double newAng = toRad(navx_->GetYaw());
-    double newAngVel = (newAng - currentPose_.ang) / dt;
-    double newAngAccel = (newAngVel - currentPose_.angVel) / dt;
-    currentPose_.ang = newAng;
-    currentPose_.angVel = newAngVel;
-    currentPose_.angAccel = newAngAccel;
+    if(navx_){
+        double newAng = toRad(navx_->GetYaw());
+        double newAngVel = (newAng - currentPose_.ang) / dt;
+        double newAngAccel = (newAngVel - currentPose_.angVel) / dt;
+        currentPose_.ang = newAng;
+        currentPose_.angVel = newAngVel;
+        currentPose_.angAccel = newAngAccel;
+    }
 
     //Average the velocities
     Vector velocity{0.0, 0.0};

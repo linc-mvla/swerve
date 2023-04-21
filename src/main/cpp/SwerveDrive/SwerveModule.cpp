@@ -47,11 +47,11 @@ void SwerveModule::TeleopPeriodic(){
 
     double turnDiff = getAngDiff(targetPose_.ang, currPose_.ang);
     if(turnDiff > M_PI/2.0){
-        inverted_ = true;
+        inverted_ = !inverted_;
         turnDiff = -M_PI + turnDiff;
     }
     else if(turnDiff < -M_PI/2.0){
-        inverted_ = true;
+        inverted_ = !inverted_;
         turnDiff = M_PI + turnDiff;
     }
     double turnTarg = turnPID_.Calculate(turnDiff);

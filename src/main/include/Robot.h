@@ -14,7 +14,7 @@
 #include "RobotConstants.h"
 #include "SwerveDrive/SwerveDrive.h"
 
-#define USE_CONTROLLER false
+#define USE_CONTROLLER true
 #if USE_CONTROLLER
 #include "Controls/Controls.h"
 #endif
