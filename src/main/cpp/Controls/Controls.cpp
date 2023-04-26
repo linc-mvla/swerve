@@ -7,7 +7,7 @@ Vector Controls::getStrafe(){
     if(p.originDist() < ControlConstants::RJOY_DEADBAND){
         return Point(0.0, 0.0);
     }
-    return p;
+    return p * ControlConstants::STRAFE_CONST;
 }
 
 double Controls::getRotation(){
@@ -15,7 +15,7 @@ double Controls::getRotation(){
     if(abs(w) < ControlConstants::LJOY_DEADBAND){
         return 0.0;
     }
-    return w;
+    return w * ControlConstants::ROTATION_CONST;
 }
 
 bool Controls::isZero(){

@@ -11,7 +11,7 @@
 void Robot::RobotInit() {
   navx_ = new AHRS(RobotConstants::NAVX::PORT);
   drive_.setNAVX(navx_);
-  //drive_.enableShuffleboard(true, true);
+  drive_.enableShuffleboard(true, true);
   drive_.reset();
 }
 

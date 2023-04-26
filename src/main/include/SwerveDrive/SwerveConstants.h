@@ -20,34 +20,36 @@ namespace SwerveConstants{
         int encoderID;
         double encoderOffset;
         Point pos; //Meters
-        frc::PIDController turnPID = {0, 0, 0};
+        frc::PIDController turnPID = {2.7, 0, 0};
     };
 
+    //X axis is the side
+    //Y axis is front-back
     const SwerveStruct FL = {   "Front Left",       //Name
                                 23,                 //Drive ID
                                 5,                  //Turn ID
-                                2, 175.8,           //Encoder ID, offset
+                                2, -185.009 + 180.0,        //Encoder ID, offset
                                 {-0.3429, 0.3429}   //Position
                             };
 
     const SwerveStruct FR = {   "Front Right",
                                 4,
                                 10,
-                                8, 173.75,
+                                8, -9.31,
                                 {0.3429, 0.3429}
                             };
 
     const SwerveStruct BL = {   "Back Left",
                                 22,
                                 19,
-                                6, 41.6,
+                                6, -98.613,
                                 {-0.3429, -0.3429}
                             };
 
     const SwerveStruct BR = {   "Back Right",
                                 1,
                                 7,
-                                9, 74.26,
+                                9, -209.855 + 180.0,
                                 {0.3429, -0.3429}
                             };
 
@@ -55,7 +57,7 @@ namespace SwerveConstants{
     const int NUMSWERVE = 4;
 
     const double DRIVE_MAX_VOLTS = 3.0; //Volts
-    const double TURN_MAX_VOLTS = 3.0; //Volts
+    const double TURN_MAX_VOLTS = 12.0; //Volts
 
     const double WHEEL_RADIUS = 0.0508; //Meters
     const double TICKS_PER_ROTATION = 2048.0;
