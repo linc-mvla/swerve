@@ -34,15 +34,13 @@ void ShuffleboardSender::add(std::string name, frc::PIDController* o, bool edit)
 }
 
 void ShuffleboardSender::send(){
-    int size = items_.size();
-    for(int i = 0; i<size; i++){
+    for(int i = 0; i< items_.size(); i++){
         items_[i].send();
     }
 };
 
 void ShuffleboardSender::edit(){
-    int size = items_.size();
-    for(int i = 0; i<size; i++){
+    for(int i = 0; i< items_.size(); i++){
         items_[i].edit();
     }
 }

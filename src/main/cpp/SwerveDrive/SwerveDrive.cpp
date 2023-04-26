@@ -18,27 +18,31 @@ void SwerveDrive::reset(){
 
 void SwerveDrive::zero(){
     SwervePose::zero(currentPose_);
-    navx_->ZeroYaw();
+    if(navx_){
+        navx_->ZeroYaw();
+    }
 }
 
 void SwerveDrive::Periodic(){
     for(SwerveModule* module : modules_){
         module->Periodic();
     }
-    updatePose();
-    printShuffleboard();
+    //updatePose();
+    //printShuffleboard();
 }
 
 void SwerveDrive::updatePose(){
     double time = frc::Timer::GetFPGATimestamp().value();
     double dt = time - lastUpdate_;
 
-    double newAng = toRad(navx_->GetYaw());
-    double newAngVel = (newAng - currentPose_.ang) / dt;
-    double newAngAccel = (newAngVel - currentPose_.angVel) / dt;
-    currentPose_.ang = newAng;
-    currentPose_.angVel = newAngVel;
-    currentPose_.angAccel = newAngAccel;
+    if(navx_){
+        double newAng = toRad(navx_->GetYaw());
+        double newAngVel = (newAng - currentPose_.ang) / dt;
+        double newAngAccel = (newAngVel - currentPose_.angVel) / dt;
+        currentPose_.ang = newAng;
+        currentPose_.angVel = newAngVel;
+        currentPose_.angAccel = newAngAccel;
+    }
 
     //Average the velocities
     Vector velocity{0.0, 0.0};
@@ -75,7 +79,7 @@ void SwerveDrive::TeleopPeriodic(){
 void SwerveDrive::drive(){
     for(SwerveModule* module : modules_){
         Vector angVelVec = module->getPos() - pivot_; //Get vector from pivot to module
-        angVelVec.rotateClockwise90This(); //Set to vector tangent to the path of rotation
+        //angVelVec.rotateCounterclockwise90This(); //Set to vector tangent to the path of rotation
 
         //Adds tangential velocity, which is just the target tangential velocity (rotated by the robot's pose)
         //Adds the rotational velocity, which is the angVelVec times the angular velocity: v = r*w
@@ -143,6 +147,7 @@ void SwerveDrive::disableSuffleboard(){
 
 void SwerveDrive::printShuffleboard(){
     if((!shuffData_.showDashboard) || (!shuffData_.initialized)){
+        std::cout<<"Skipped"<<std::endl;
         return;
     }
     shuffData_.currAng->SetDouble(toDeg(currentPose_.ang));

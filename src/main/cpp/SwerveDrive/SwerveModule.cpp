@@ -5,9 +5,9 @@ using namespace GeometryHelper;
 
 SwerveModule::SwerveModule(SwerveConstants::SwerveStruct swerveMod):
     name_(swerveMod.name),
-    driveMotor_(swerveMod.driveID),
-    turnMotor_(swerveMod.turnID),
-    cancoder_(swerveMod.encoderID),
+    driveMotor_(swerveMod.driveID, "drivebase"),
+    turnMotor_(swerveMod.turnID, "drivebase"),
+    cancoder_(swerveMod.encoderID, "drivebase"),
     pos_(swerveMod.pos),
     turnPID_(swerveMod.turnPID),
     encoderOffset_(swerveMod.encoderOffset),
@@ -38,16 +38,19 @@ void SwerveModule::TeleopInit(){
 
 void SwerveModule::TeleopPeriodic(){
     double driveTarg = std::clamp(targetPose_.speed, -maxDriveVolts_, maxDriveVolts_);
+    if(inverted_){
+        driveTarg = -driveTarg;
+    }
     driveVolts_ = units::volt_t(driveTarg);
     driveMotor_.SetVoltage(driveVolts_);
 
     double turnDiff = getAngDiff(targetPose_.ang, currPose_.ang);
     if(turnDiff > M_PI/2.0){
-        inverted_ = true;
+        inverted_ = !inverted_;
         turnDiff = -M_PI + turnDiff;
     }
     else if(turnDiff < -M_PI/2.0){
-        inverted_ = true;
+        inverted_ = !inverted_;
         turnDiff = M_PI + turnDiff;
     }
     double turnTarg = turnPID_.Calculate(turnDiff);
@@ -109,9 +112,9 @@ void SwerveModule::printShuffleboard(){
     if(shuffData_.edit){
         maxDriveVolts_ = shuffData_.maxDrive->GetDouble(maxDriveVolts_);
         maxTurnVolts_ = shuffData_.maxTurn->GetDouble(maxDriveVolts_);
-        turnPID_.SetP(shuffData_.turnP->GetBoolean(turnPID_.GetP()));
-        turnPID_.SetI(shuffData_.turnI->GetBoolean(turnPID_.GetI()));
-        turnPID_.SetD(shuffData_.turnD->GetBoolean(turnPID_.GetD()));
+        turnPID_.SetP(shuffData_.turnP->GetDouble(turnPID_.GetP()));
+        turnPID_.SetI(shuffData_.turnI->GetDouble(turnPID_.GetI()));
+        turnPID_.SetD(shuffData_.turnD->GetDouble(turnPID_.GetD()));
         //targetPose_.ang = shuffData_.targAng->GetDouble(toRad(targetPose_.ang));
         //targetPose_.speed = shuffData_.targVel->GetBoolean(targetPose_.speed);
         volts_ = shuffData_.targVolts->GetBoolean(volts_);
@@ -119,6 +122,7 @@ void SwerveModule::printShuffleboard(){
     shuffData_.targAng->SetDouble(toDeg(targetPose_.ang));
     shuffData_.targVel->SetDouble(targetPose_.speed);
     shuffData_.targVolts->SetBoolean(volts_);
+    shuffData_.inverted->SetBoolean(inverted_);
 }
 
 std::string SwerveModule::getName(){

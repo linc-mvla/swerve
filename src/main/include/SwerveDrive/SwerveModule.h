@@ -1,13 +1,13 @@
 #pragma once
 
+#include <ctre/Phoenix.h>
+#include <frc2/command/PIDCommand.h>
+#include <frc/shuffleboard/Shuffleboard.h>
+#include <units/voltage.h>
+
 #include <string>
 #include <cmath>
 #include <iostream>
-#include <ctre/Phoenix.h>
-#include <units/voltage.h>
-
-#include <frc2/command/PIDCommand.h>
-#include <frc/shuffleboard/Shuffleboard.h>
 
 #include "Geometry/Point.h"
 #include "SwervePose.h"
@@ -63,7 +63,7 @@ class SwerveModule{
 
         Point pos_ = {0, 0}; //Position on robot, accessed by swerveDrive, stored in module
 
-        bool inverted_;
+        bool inverted_ = false;
 
         ShuffleboardSender ShuffData_;
 };
