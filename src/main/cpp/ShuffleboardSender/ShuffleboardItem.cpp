@@ -1,57 +1,119 @@
 #include "ShuffleboardSender/ShuffleboardItem.h"
 
-ShuffleboardItem::ShuffleboardItem(std::string name, double* o, frc::ShuffleboardTab* tab, bool edit):
-    type_(DOUBLE)
+ShuffleboardItem::ShuffleboardItem(ItemData data, double* value):
+    type_(DOUBLE),
+    edit_(data.edit)
 {
-    value_.d = o;
-    entry_.one = tab->Add(name, *o).GetEntry();   
+    value_.d = value;
+    if((data.positionX >= 0) && (data.positionY >= 0)){
+        entries_.push_back(data.tab->Add(data.name, *value)
+                                            .WithSize(data.width, data.height)
+                                            .WithPosition(data.positionX, data.positionY)
+                                            .GetEntry()
+                                        );
+    } 
+    else{
+        entries_.push_back(data.tab->Add(data.name, *value).
+                                            WithSize(data.width, data.height)
+                                            .GetEntry());
+    }
 };
 
-ShuffleboardItem::ShuffleboardItem(std::string name, bool* o, frc::ShuffleboardTab* tab, bool edit):
-    type_(BOOL)
+ShuffleboardItem::ShuffleboardItem(ItemData data, bool* value):
+    type_(BOOL),
+    edit_(data.edit)
 {
-    value_.b = o;
-    entry_.one = tab->Add(name, *o).GetEntry();   
+    value_.b = value;
+    if((data.positionX >= 0) && (data.positionY >= 0)){
+        entries_.push_back(data.tab->Add(data.name, *value)
+                                            .WithSize(data.width, data.height)
+                                            .WithPosition(data.positionX, data.positionY)
+                                            .GetEntry()
+                                        );
+    } 
+    else{
+        entries_.push_back(data.tab->Add(data.name, *value)
+                                            .WithSize(data.width, data.height)
+                                            .GetEntry());
+    }
 };
 
-ShuffleboardItem::ShuffleboardItem(std::string name, int* o, frc::ShuffleboardTab* tab, bool edit):
-    type_(INT)
+ShuffleboardItem::ShuffleboardItem(ItemData data, int* value):
+    type_(INT),
+    edit_(data.edit)
 {
-    value_.i = o;
-    entry_.one = tab->Add(name, *o).GetEntry();   
+    value_.i = value;
+    if((data.positionX >= 0) && (data.positionY >= 0)){
+        entries_.push_back(data.tab->Add(data.name, *value)
+                                            .WithSize(data.width, data.height)
+                                            .WithPosition(data.positionX, data.positionY)
+                                            .GetEntry()
+                                        );
+    } 
+    else{
+        entries_.push_back(data.tab->Add(data.name, *value)
+                                            .WithSize(data.width, data.height)
+                                            .GetEntry());
+    }
 };
 
-ShuffleboardItem::ShuffleboardItem(std::string name, units::volt_t* o, frc::ShuffleboardTab* tab, bool edit):
-    type_(VOLT)
+ShuffleboardItem::ShuffleboardItem(ItemData data, units::volt_t* value):
+    type_(VOLT),
+    edit_(data.edit)
 {
-    value_.volt = o;
-    entry_.one = tab->Add(name, o->value()).GetEntry();   
-};
+    value_.volt = value;
+    if((data.positionX >= 0) && (data.positionY >= 0)){
+        entries_.push_back(data.tab->Add(data.name, value->value())
+                                            .WithSize(data.width, data.height)
+                                            .WithPosition(data.positionX, data.positionY)
+                                            .GetEntry()
+                                        );
+    } 
+    else{
+        entries_.push_back(data.tab->Add(data.name, value->value())
+                                            .WithSize(data.width, data.height)
+                                            .GetEntry());
+    }
+}
 
-ShuffleboardItem::ShuffleboardItem(std::string name, frc::PIDController* o, frc::ShuffleboardTab* tab, bool edit):
-    type_(PIDCONTROLLER)
+ShuffleboardItem::ShuffleboardItem(ItemData data, frc::PIDController* value):
+    type_(PIDCONTROLLER),
+    edit_(data.edit)
 {
-    value_.pid = o;
-    entry_.pid[0] = tab->Add(name + " P", o->GetP()).GetEntry();   
-    entry_.pid[1] = tab->Add(name + " I", o->GetI()).GetEntry();
-    entry_.pid[2] = tab->Add(name + " D", o->GetD()).GetEntry();   
+    value_.pid = value;
+
+    frc::ShuffleboardLayout* pidLayout;
+    if((data.positionX >= 0) && (data.positionY >= 0)){
+        pidLayout = &data.tab->GetLayout(data.name, frc::BuiltInLayouts::kList)
+                                                    .WithSize(data.width, data.height)
+                                                    .WithPosition(data.positionX, data.positionY)
+                                                    .WithProperties({std::make_pair("Label Position", nt::Value::MakeString("Right"))});
+    }
+    else{
+        pidLayout = &data.tab->GetLayout(data.name, frc::BuiltInLayouts::kList)
+                                                    .WithSize(data.width, data.height)
+                                                    .WithProperties({std::make_pair("Label Position", nt::Value::MakeString("Right"))});
+    }
+    entries_.push_back(pidLayout->Add("P", value->GetP()).GetEntry());   
+    entries_.push_back(pidLayout->Add("I", value->GetI()).GetEntry());
+    entries_.push_back(pidLayout->Add("D", value->GetD()).GetEntry());   
 };
 
 void ShuffleboardItem::send(){
     switch(type_){
         case DOUBLE:
-            entry_.one->SetDouble(*value_.d);
+            entries_[0]->SetDouble(*value_.d);
             break;
         case BOOL:
-            entry_.one->SetBoolean(*value_.b);
+            entries_[0]->SetBoolean(*value_.b);
             break;
         case INT:
-            entry_.one->SetInteger(*value_.i);
+            entries_[0]->SetInteger(*value_.i);
             break;
         case PIDCONTROLLER:
-            entry_.pid[0]->SetDouble(value_.pid->GetP());
-            entry_.pid[1]->SetDouble(value_.pid->GetI());
-            entry_.pid[2]->SetDouble(value_.pid->GetD());
+            entries_[0]->SetDouble(value_.pid->GetP());
+            entries_[1]->SetDouble(value_.pid->GetI());
+            entries_[2]->SetDouble(value_.pid->GetD());
             break;
     }
 }
@@ -62,18 +124,18 @@ void ShuffleboardItem::edit(){
     }
     switch(type_){
         case DOUBLE:
-            *value_.d = entry_.one->GetDouble(*value_.d);
+            *value_.d = entries_[0]->GetDouble(*value_.d);
             break;
         case BOOL:
-            *value_.b = entry_.one->GetBoolean(*value_.b);
+            *value_.b = entries_[0]->GetBoolean(*value_.b);
             break;
         case INT:
-            *value_.i = entry_.one->GetInteger(*value_.i);
+            *value_.i = entries_[0]->GetInteger(*value_.i);
             break;
         case PIDCONTROLLER:
-            value_.pid->SetP(entry_.pid[0]->GetDouble(value_.pid->GetP()));
-            value_.pid->SetI(entry_.pid[1]->GetDouble(value_.pid->GetI()));
-            value_.pid->SetD(entry_.pid[2]->GetDouble(value_.pid->GetD()));
+            value_.pid->SetP(entries_[0]->GetDouble(value_.pid->GetP()));
+            value_.pid->SetI(entries_[1]->GetDouble(value_.pid->GetI()));
+            value_.pid->SetD(entries_[2]->GetDouble(value_.pid->GetD()));
             break;
     }
 }

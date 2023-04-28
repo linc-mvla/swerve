@@ -39,18 +39,21 @@ class ShuffleboardSender{
         void add(std::string name, SwervePose::ModulePose* o, bool edit = false);
         
         /**
-         * Sends the data from pointers
+         * Updates variables by reading and configuring, and then sending the data
         */
-        void send();
-        /**
-         * Updates variables
+        void update();
+
+        /***
+         * If the sender's edit is disabled, all items will not be able to be edited
         */
-        void edit();
+        void disable() {enabled_ = false;}
+        void enable(bool edit = false) {enabled_ = true; edit_ = edit;}
 
     private:
         std::string name_;
-        bool initialized_;
-        bool edit_;
+        bool initialized_ = false;
+        bool edit_ = false;
+        bool enabled_ = false;
         frc::ShuffleboardTab* tab_;
         std::vector<ShuffleboardItem> items_;
 };

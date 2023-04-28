@@ -29,6 +29,8 @@ void SwerveModule::Periodic(){
     currPose_.ang = wheelAng;
     currPose_.speed = wheelVel;
     vel_ = Vector(cos(wheelAng) * wheelVel , sin(wheelAng) * wheelVel);
+
+    ShuffData_.update();
 }
 
 void SwerveModule::TeleopInit(){
@@ -79,50 +81,23 @@ void SwerveModule::setTarget(SwervePose::ModulePose pose, bool volts){
 }
 
 void SwerveModule::enableShuffleboard(bool edit){
+    if(ShuffData_.isInitialized()){
+        ShuffData_.enable(edit);
+    }
     ShuffData_.Initialize(edit);
     ShuffData_.add("Drive Volts", &driveVolts_);
-    shuffData_.driveVolts = shuffData_.tab->Add("Drive Volts", driveVolts_.value()).GetEntry();
-    shuffData_.turnVolts = shuffData_.tab->Add("Turn Volts", turnVolts_.value()).GetEntry();
-    shuffData_.maxDrive = shuffData_.tab->Add("Drive Max Volts", maxDriveVolts_).GetEntry();
-    shuffData_.maxTurn = shuffData_.tab->Add("Turn Max Volts", maxTurnVolts_).GetEntry();
-    shuffData_.turnP = shuffData_.tab->Add("P", turnPID_.GetP()).GetEntry();
-    shuffData_.turnI = shuffData_.tab->Add("I", turnPID_.GetI()).GetEntry();
-    shuffData_.turnD = shuffData_.tab->Add("D", turnPID_.GetD()).GetEntry();
-    shuffData_.targAng = shuffData_.tab->Add("Target Ang", toDeg(targetPose_.ang)).GetEntry();
-    shuffData_.targVel = shuffData_.tab->Add("Target Vel", targetPose_.speed).GetEntry();
-    shuffData_.targVolts = shuffData_.tab->Add("Target Volts", volts_).GetEntry();
-    shuffData_.currAng = shuffData_.tab->Add("Ang", toDeg(currPose_.ang)).GetEntry();
-    shuffData_.currVel = shuffData_.tab->Add("Vel", currPose_.speed).GetEntry();
-    shuffData_.inverted = shuffData_.tab->Add("Inverted", inverted_).GetEntry();
+    ShuffData_.add("Turn Volts", &turnVolts_);
+    ShuffData_.add("Drive Max Volts", &maxDriveVolts_);
+    ShuffData_.add("Turn Max Volts", &maxTurnVolts_);
+    ShuffData_.add("Turn PID", &turnPID_, edit = true);
+    ShuffData_.add("Target Pose", &targetPose_);
+    ShuffData_.add("Volts", &volts_);
+    ShuffData_.add("Current Pose", &currPose_);
+    ShuffData_.add("Inverted", &inverted_);
 }
 
 void SwerveModule::disableSuffleboard(){
-    shuffData_.showDashboard = false;
-}
-
-void SwerveModule::printShuffleboard(){
-    if(!shuffData_.showDashboard){
-        return;
-    }
-    //std::cout<<name_<<"; Angle:"<<targetPose_.ang<<"; Speed:"<<targetPose_.speed<<std::endl;
-    shuffData_.driveVolts->SetDouble(driveVolts_.value());
-    shuffData_.turnVolts->SetDouble(turnVolts_.value());
-    shuffData_.currAng->SetDouble(toDeg(currPose_.ang));
-    shuffData_.currVel->SetDouble(currPose_.speed);
-    if(shuffData_.edit){
-        maxDriveVolts_ = shuffData_.maxDrive->GetDouble(maxDriveVolts_);
-        maxTurnVolts_ = shuffData_.maxTurn->GetDouble(maxDriveVolts_);
-        turnPID_.SetP(shuffData_.turnP->GetDouble(turnPID_.GetP()));
-        turnPID_.SetI(shuffData_.turnI->GetDouble(turnPID_.GetI()));
-        turnPID_.SetD(shuffData_.turnD->GetDouble(turnPID_.GetD()));
-        //targetPose_.ang = shuffData_.targAng->GetDouble(toRad(targetPose_.ang));
-        //targetPose_.speed = shuffData_.targVel->GetBoolean(targetPose_.speed);
-        volts_ = shuffData_.targVolts->GetBoolean(volts_);
-    }
-    shuffData_.targAng->SetDouble(toDeg(targetPose_.ang));
-    shuffData_.targVel->SetDouble(targetPose_.speed);
-    shuffData_.targVolts->SetBoolean(volts_);
-    shuffData_.inverted->SetBoolean(inverted_);
+    ShuffData_.disable();
 }
 
 std::string SwerveModule::getName(){
