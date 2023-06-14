@@ -25,7 +25,7 @@ void Robot::RobotInit() {
  */
 void Robot::RobotPeriodic() {
   #if USE_CONTROLLER
-  if(controls_.isZero()){
+  if(controls_.fieldOrientPressed()){
     drive_.zero();
   }
   #endif

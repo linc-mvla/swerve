@@ -67,6 +67,9 @@ template <> void ShuffleboardItem<bool>::send(){
 template <> void ShuffleboardItem<int>::send(){
     entries_[0]->SetInteger(*value_);
 }
+template <> void ShuffleboardItem<units::volt_t>::send(){
+    entries_[0]->SetDouble(value_->value());
+}
 template <> void ShuffleboardItem<frc::PIDController>::send(){
     entries_[0]->SetDouble(value_->GetP());
     entries_[1]->SetDouble(value_->GetI());
@@ -85,9 +88,15 @@ template <> void ShuffleboardItem<int>::edit(){
     if(!edit_)return;
     *value_ = entries_[0]->GetInteger(*value_);
 }
+template <> void ShuffleboardItem<units::volt_t>::edit(){
+    if(!edit_)return;
+    *value_ = units::volt_t{entries_[0]->GetDouble(value_->value())};
+}
 template <> void ShuffleboardItem<frc::PIDController>::edit(){
     if(!edit_)return;
     value_->SetP(entries_[0]->GetDouble(value_->GetP()));
     value_->SetI(entries_[1]->GetDouble(value_->GetI()));
     value_->SetD(entries_[2]->GetDouble(value_->GetD()));
 }
+
+#include "ShuffleboardSender/ShuffleboardItemDefined.h"

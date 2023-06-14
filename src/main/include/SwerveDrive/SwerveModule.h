@@ -4,10 +4,13 @@
 #include <frc2/command/PIDCommand.h>
 #include <frc/shuffleboard/Shuffleboard.h>
 #include <units/voltage.h>
+#include <frc/Encoder.h>
+#include <frc/AnalogEncoder.h>
 
 #include <string>
 #include <cmath>
 #include <iostream>
+#include <stdint.h>
 
 #include "Geometry/Point.h"
 #include "SwervePose.h"
@@ -51,7 +54,8 @@ class SwerveModule{
         units::volt_t turnVolts_{0.0};
         double maxTurnVolts_ = SwerveConstants::TURN_MAX_VOLTS;
 
-        WPI_CANCoder cancoder_;
+        frc::Encoder driveEncoder_;
+        frc::AnalogEncoder turnEncoder_;
         double encoderOffset_;
 
         frc::PIDController turnPID_{0, 0, 0};

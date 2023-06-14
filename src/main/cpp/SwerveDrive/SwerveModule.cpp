@@ -7,20 +7,22 @@ SwerveModule::SwerveModule(SwerveConstants::SwerveStruct swerveMod):
     name_(swerveMod.name),
     driveMotor_(swerveMod.driveID, "drivebase"),
     turnMotor_(swerveMod.turnID, "drivebase"),
-    cancoder_(swerveMod.encoderID, "drivebase"),
-    pos_(swerveMod.pos),
+    turnEncoder_(swerveMod.turnID),
+    driveEncoder_(swerveMod.driveEncoderID[0],swerveMod.driveEncoderID[1]),
     turnPID_(swerveMod.turnPID),
+    pos_(swerveMod.pos),
     encoderOffset_(swerveMod.encoderOffset),
     ShuffData_(name_)
 {
     driveMotor_.SetNeutralMode(NeutralMode::Coast);
     turnMotor_.SetNeutralMode(NeutralMode::Coast);
+
 }
 
 void SwerveModule::Periodic(){
     //Calc velocity
     //double wheelAng = turnMotor_->GetSelectedSensorPosition() / SwerveConstants::TICKS_PER_RADIAN;
-    double wheelAng = toRad(cancoder_.GetAbsolutePosition() + encoderOffset_);
+    double wheelAng = toRad(turnEncoder_.GetAbsolutePosition() + encoderOffset_);
     if(inverted_){
         wheelAng += M_PI;
     }

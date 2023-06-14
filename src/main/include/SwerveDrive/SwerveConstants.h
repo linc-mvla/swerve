@@ -17,7 +17,8 @@ namespace SwerveConstants{
         std::string name;
         int driveID;
         int turnID;
-        int encoderID;
+        int turnEncoderID;
+        int driveEncoderID[2];
         double encoderOffset;
         Point pos; //Meters
         frc::PIDController turnPID = {2.7, 0, 0};
@@ -26,30 +27,30 @@ namespace SwerveConstants{
     //X axis is the side
     //Y axis is front-back
     const SwerveStruct FL = {   "Front Left",       //Name
-                                23,                 //Drive ID
-                                5,                  //Turn ID
-                                2, -185.009 + 180.0,        //Encoder ID, offset
+                                2,                 //Drive ID
+                                1,                  //Turn ID
+                                2, {6,7}, -185.009 + 180.0,        //turnID, drive encoder ID, offset
                                 {-0.3429, 0.3429}   //Position
                             };
 
     const SwerveStruct FR = {   "Front Right",
-                                4,
-                                10,
-                                8, -9.31,
+                                21,
+                                22,
+                                1, {8,9}, -9.31,
                                 {0.3429, 0.3429}
                             };
 
     const SwerveStruct BL = {   "Back Left",
-                                22,
-                                19,
-                                6, -98.613,
+                                11,
+                                12,
+                                0, {2,3}, -98.613,
                                 {-0.3429, -0.3429}
                             };
 
     const SwerveStruct BR = {   "Back Right",
-                                1,
-                                7,
-                                9, -209.855 + 180.0,
+                                32,
+                                31,
+                                3, {4,5}, -209.855 + 180.0,
                                 {0.3429, -0.3429}
                             };
 

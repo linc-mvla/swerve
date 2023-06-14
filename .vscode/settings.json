@@ -99,6 +99,14 @@
     "qr": "cpp",
     "sparsecore": "cpp",
     "xtr1common": "cpp",
-    "xstring": "cpp"
+    "xstring": "cpp",
+    "ios": "cpp",
+    "xfacet": "cpp",
+    "xiosbase": "cpp",
+    "xlocale": "cpp",
+    "xlocinfo": "cpp",
+    "xlocnum": "cpp",
+    "xmemory": "cpp",
+    "xutility": "cpp"
   }
 }
