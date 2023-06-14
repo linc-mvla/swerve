@@ -9,12 +9,19 @@
 
 #include "SwerveDrive/SwervePose.h"
 
+class ShuffleboardItemInterface{
+    public:
+        virtual void send();
+        virtual void edit();
+};
+
 /**
  * Class to send objects to shuffleboard
  * 
  * note: edit "send" and "edit" when adding a type
 */
-class ShuffleboardItem{
+template <typename T>
+class ShuffleboardItem: ShuffleboardItemInterface{
     public:
         /***
          * Structure to more easily create items
@@ -29,40 +36,18 @@ class ShuffleboardItem{
             int positionX = -1;
             int positionY = -1;
         };
-        ShuffleboardItem(ItemData data, double* value);
-        ShuffleboardItem(ItemData data, bool* value);
-        ShuffleboardItem(ItemData data, int* value);
-        ShuffleboardItem(ItemData data, units::volt_t* value);
-        ShuffleboardItem(ItemData data, frc::PIDController* value);
-        ShuffleboardItem(ItemData data, SwervePose::Pose* value);
-        ShuffleboardItem(ItemData data, SwervePose::ModulePose* value);
+        ShuffleboardItem(ItemData data, T* value);
+        // ShuffleboardItem<units::volt_t>(ItemData data, units::volt_t* value);
+        // ShuffleboardItem<frc::PIDController>(ItemData data, frc::PIDController* value);
+        // ShuffleboardItem<SwervePose::Pose>(ItemData data, SwervePose::Pose* value);
+        // ShuffleboardItem<>(ItemData data, SwervePose::ModulePose* value);
         void send();
         void edit();
 
     private:
         bool edit_;
 
-        enum type{ //Says what type the item is
-            DOUBLE,
-            BOOL,
-            INT,
-            VOLT,
-            PIDCONTROLLER,
-            SWERVEPOSE
-        } type_;
-
-        union{ //Pointer to the item's value to edit and read
-            double *d;
-            bool *b;
-            int *i;
-            units::volt_t *volt;
-            frc::PIDController *pid; //Entries: [P, I, D]
-            struct{
-                frc::Field2d *field;
-                SwervePose::Pose *pose;
-            }swervePose;
-            SwervePose::ModulePose *modulePose;
-        } value_;
+        T* value_;
 
         std::vector<nt::GenericEntry*> entries_;
 };

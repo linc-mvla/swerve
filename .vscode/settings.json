@@ -97,6 +97,8 @@
     "jacobi": "cpp",
     "lu": "cpp",
     "qr": "cpp",
-    "sparsecore": "cpp"
+    "sparsecore": "cpp",
+    "xtr1common": "cpp",
+    "xstring": "cpp"
   }
 }

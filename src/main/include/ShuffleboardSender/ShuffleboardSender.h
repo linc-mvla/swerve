@@ -29,7 +29,7 @@ class ShuffleboardSender{
         /**
          * Add a pointer to an variable to send/get
         */
-        void add(ShuffleboardItem item);
+        template <typename T> void add(ShuffleboardItem<T> item);
         void add(std::string name, double* o, bool edit = false);
         void add(std::string name, bool* o, bool edit = false);
         void add(std::string name, int* o, bool edit = false);
@@ -55,5 +55,5 @@ class ShuffleboardSender{
         bool edit_ = false;
         bool enabled_ = false;
         frc::ShuffleboardTab* tab_;
-        std::vector<ShuffleboardItem> items_;
+        std::vector<ShuffleboardItemInterface*> items_;
 };

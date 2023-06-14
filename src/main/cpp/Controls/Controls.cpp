@@ -18,6 +18,6 @@ double Controls::getRotation(){
     return w * ControlConstants::ROTATION_CONST;
 }
 
-bool Controls::isZero(){
-    return rJoy_.GetRawButton(ControlConstants::ZERO);
+bool Controls::fieldOrientPressed(){
+    return lJoy_.GetRawButton(ControlConstants::FIELD_ORIENT);
 }
