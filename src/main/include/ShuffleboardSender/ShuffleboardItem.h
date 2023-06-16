@@ -9,24 +9,9 @@
 
 #include "SwerveDrive/SwervePose.h"
 
+std::vector<int> k;
 class ShuffleboardItemInterface{
     public:
-        virtual void send(){};
-        virtual void edit(){};
-};
-
-/**
- * Class to send objects to shuffleboard
- * 
- * note: edit "send" and "edit" when adding a type
-*/
-template <typename T>
-class ShuffleboardItem: public ShuffleboardItemInterface{
-    public:
-        /***
-         * Structure to more easily create items
-         * Also doesn't make the constructer ugly
-        */
         struct ItemData{
             std::string name;
             frc::ShuffleboardTab* tab;
@@ -36,12 +21,19 @@ class ShuffleboardItem: public ShuffleboardItemInterface{
             int positionX = -1;
             int positionY = -1;
         };
+        virtual void send(){};
+        virtual void edit(){};
+};
+
+/**
+ * Class to send objects to shuffleboard
+ * 
+*/
+template <typename T>
+class ShuffleboardItem : public ShuffleboardItemInterface{
+    public:
         ShuffleboardItem(ItemData data, T* value);
         
-        // ShuffleboardItem<units::volt_t>(ItemData data, units::volt_t* value);
-        // ShuffleboardItem<frc::PIDController>(ItemData data, frc::PIDController* value);
-        // ShuffleboardItem<SwervePose::Pose>(ItemData data, SwervePose::Pose* value);
-        // ShuffleboardItem<>(ItemData data, SwervePose::ModulePose* value);
         void send();
         void edit();
 
@@ -50,5 +42,8 @@ class ShuffleboardItem: public ShuffleboardItemInterface{
 
         T* value_;
 
-        std::vector<nt::GenericEntry*> entries_;
+        nt::GenericEntry* entry_;
 };
+
+#include "ShuffleboardItemDefined.h"
+#include "ShuffleboardItem.hpp"

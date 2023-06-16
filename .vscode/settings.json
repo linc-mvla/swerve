@@ -107,6 +107,7 @@
     "xlocinfo": "cpp",
     "xlocnum": "cpp",
     "xmemory": "cpp",
-    "xutility": "cpp"
+    "xutility": "cpp",
+    "xstddef": "cpp"
   }
 }

@@ -29,8 +29,13 @@ class ShuffleboardSender{
         /**
          * Add a pointer to an variable to send/get
         */
-        template <typename T> void add(ShuffleboardItem<T> item);
-        template <typename T> void add(std::string name, T* o, bool edit = false);
+        template <typename T> void add(ShuffleboardItem<T> item){
+            items_.push_back(&item);
+        }
+
+        template <typename T> void add(std::string name, T* o, bool edit = false){
+            items_.push_back(ShuffleboardItem({name, tab_, edit}, o));
+        }
         
         /**
          * Updates variables by reading and configuring, and then sending the data
