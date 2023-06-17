@@ -8,7 +8,6 @@
 #include <units/voltage.h>
 
 #include "ShuffleboardItem.h"
-#include "SwerveDrive/SwervePose.h"
 
 /**
  * Class to send many variables to Shuffleboard and edit them
@@ -27,14 +26,28 @@ class ShuffleboardSender{
         bool isInitialized(){return initialized_;}
 
         /**
-         * Add a pointer to an variable to send/get
+         * Pair a value on shuffleboard to the code
         */
-        template <typename T> void add(ShuffleboardItem<T> item){
-            items_.push_back(&item);
+        template <typename T> void add(ShuffleboardItem<T>& item){
+            items_.push_back(item);
         }
 
         template <typename T> void add(std::string name, T* o, bool edit = false){
             items_.push_back(ShuffleboardItem({name, tab_, edit}, o));
+        }
+
+        struct ShuffleboardPose{
+            int width = 1;
+            int height = 1;
+            int positionX = -1;
+            int positionY = -1;
+        };
+        /**
+         * Pose Struct:
+         * {width, height, x, y}
+        */
+        template <typename T> void add(std::string name, T* o, ShuffleboardPose pose, bool edit = false){
+            items_.push_back(ShuffleboardItem({name, tab_, edit, pose.width, pose.height, pose.positionX, pose.positionY}, o));
         }
         
         /**

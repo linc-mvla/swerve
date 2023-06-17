@@ -7,7 +7,7 @@ SwerveModule::SwerveModule(SwerveConstants::SwerveStruct swerveMod):
     name_(swerveMod.name),
     driveMotor_(swerveMod.driveID, "drivebase"),
     turnMotor_(swerveMod.turnID, "drivebase"),
-    turnEncoder_(swerveMod.turnID),
+    turnEncoder_(swerveMod.turnEncoderID),
     driveEncoder_(swerveMod.driveEncoderID[0],swerveMod.driveEncoderID[1]),
     turnPID_(swerveMod.turnPID),
     pos_(swerveMod.pos),
@@ -87,15 +87,15 @@ void SwerveModule::enableShuffleboard(bool edit){
         ShuffData_.enable(edit);
     }
     ShuffData_.Initialize(edit);
-    ShuffData_.add("Drive Volts", &driveVolts_);
-    ShuffData_.add("Turn Volts", &turnVolts_);
-    ShuffData_.add("Drive Max Volts", &maxDriveVolts_);
-    ShuffData_.add("Turn Max Volts", &maxTurnVolts_);
-    ShuffData_.add("Turn PID", &turnPID_, edit = true);
-    ShuffData_.add("Target Pose", &targetPose_);
-    ShuffData_.add("Volts", &volts_);
-    ShuffData_.add("Current Pose", &currPose_);
-    ShuffData_.add("Inverted", &inverted_);
+    ShuffData_.add("Drive Volts", &driveVolts_, {1,1,0,0});
+    ShuffData_.add("Turn Volts", &turnVolts_, {1,1,1,0});
+    ShuffData_.add("Drive Max Volts", &maxDriveVolts_, {1,1,0,1}, edit = true);
+    ShuffData_.add("Turn Max Volts", &maxTurnVolts_, {1,1,1,1}, edit = true);
+    ShuffData_.add("Turn PID", &turnPID_, {1,2,6,0}, edit = true);
+    ShuffData_.add("Target Pose", &targetPose_, {2,2,2,0});
+    ShuffData_.add("Volts", &volts_, {1,1,2,2});
+    ShuffData_.add("Current Pose", &currPose_, {2,2,4,0});
+    ShuffData_.add("Inverted", &inverted_, {1,1,4,2});
 }
 
 void SwerveModule::disableSuffleboard(){

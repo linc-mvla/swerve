@@ -24,5 +24,3 @@ void ShuffleboardSender::update(){
         item.send();
     }
 };
-
-#include "ShuffleboardSender/ShuffleboardItemDefined.h"
