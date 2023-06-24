@@ -2,11 +2,13 @@
 
 #include <vector>
 
-#include <frc2/command/PIDCommand.h>
 #include <frc/shuffleboard/Shuffleboard.h>
+#include <frc/shuffleboard/ComplexWidget.h>
 #include <frc/smartdashboard/Field2d.h>
-#include <units/voltage.h>
+#include <frc/smartdashboard/SmartDashboard.h>
 
+#include <frc2/command/PIDCommand.h>
+#include <units/voltage.h>
 #include "SwerveDrive/SwervePose.h"
 
 class ShuffleboardItemInterface{
@@ -143,4 +145,17 @@ template<> class ShuffleboardItem<SwervePose::ModulePose>: public ShuffleboardIt
         bool edit_;
         SwervePose::ModulePose* value_;
         nt::GenericEntry* entry_[2]; //[Ang, Speed]
+};
+
+template<> class ShuffleboardItem<SwervePose::Pose>: public ShuffleboardItemInterface{
+    public:
+        ShuffleboardItem(ItemData data, SwervePose::Pose* value);
+        void send();
+        void edit();
+    private:
+        bool edit_;
+        SwervePose::Pose* value_;
+        frc::Field2d field_;
+        //frc::ComplexWidget* fieldWidget_;
+        nt::GenericEntry* entry_[9]; //[x, y, vx, vy, ax, ay, ang, angVel, angAcc]
 };

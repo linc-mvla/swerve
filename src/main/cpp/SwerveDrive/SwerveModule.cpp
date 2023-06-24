@@ -87,14 +87,14 @@ void SwerveModule::enableShuffleboard(bool edit){
         ShuffData_.enable(edit);
     }
     ShuffData_.Initialize(edit);
-    ShuffData_.add("Drive Volts", &driveVolts_, {1,1,0,0});
+    ShuffData_.add("Drive Volts", &driveVolts_, {1,1,0,0}); //First two columns, row 0
     ShuffData_.add("Turn Volts", &turnVolts_, {1,1,1,0});
-    ShuffData_.add("Drive Max Volts", &maxDriveVolts_, {1,1,0,1}, edit = true);
+    ShuffData_.add("Drive Max Volts", &maxDriveVolts_, {1,1,0,1}, edit = true); //First two columns, row 1
     ShuffData_.add("Turn Max Volts", &maxTurnVolts_, {1,1,1,1}, edit = true);
-    ShuffData_.add("Turn PID", &turnPID_, {1,2,6,0}, edit = true);
-    ShuffData_.add("Target Pose", &targetPose_, {2,2,2,0});
+    ShuffData_.add("Turn PID", &turnPID_, {1,2,6,0}, edit = true); //Column 6
+    ShuffData_.add("Target Pose", &targetPose_, {2,2,2,0}); //Size 2x2 (2,0)
     ShuffData_.add("Volts", &volts_, {1,1,2,2});
-    ShuffData_.add("Current Pose", &currPose_, {2,2,4,0});
+    ShuffData_.add("Current Pose", &currPose_, {2,2,4,0}); //Size 2x2 (4,0)
     ShuffData_.add("Inverted", &inverted_, {1,1,4,2});
 }
 

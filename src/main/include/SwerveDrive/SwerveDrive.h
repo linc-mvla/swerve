@@ -49,18 +49,5 @@ class SwerveDrive{
 
         AHRS* navx_;
 
-        struct ShuffleboardData{
-            bool initialized = false;
-            bool showDashboard = false;
-            bool edit = false;
-            frc::ShuffleboardTab* tab;
-            nt::GenericEntry *currAng, *currAngV, *currAngAccel,
-                             *currPosX, *currVX, *currXAccel,
-                             *currPosY, *currVY, *currYAccel,
-                             *targetVY, *targetVX, *targetVAng,
-                             *volts;
-        };
-
-        ShuffleboardData shuffData_;
-        void printShuffleboard();
+        ShuffleboardSender ShuffData_;
 };

@@ -35,7 +35,7 @@ class Robot : public frc::TimedRobot {
         void SimulationPeriodic() override;
 
     private:
-        SwerveDrive drive_{""};
+        SwerveDrive drive_{"Drivebase"};
         AHRS* navx_;
         #if USE_CONTROLLER
         Controls controls_;

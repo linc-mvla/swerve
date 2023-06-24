@@ -2,7 +2,8 @@
 
 #include "ShuffleboardSender/ShuffleboardItem.h"
 #include "SwerveDrive/SwervePose.h"
-#include <algorithm>
+
+//Constructor
 
 ShuffleboardItem<double>::ShuffleboardItem(ItemData data, double* value):
     edit_(data.edit)
@@ -115,6 +116,17 @@ ShuffleboardItem<SwervePose::ModulePose>::ShuffleboardItem(ItemData data, Swerve
     entry_[1] = poseLayout->Add("Vel", value->speed).GetEntry(); 
 };
 
+ShuffleboardItem<SwervePose::Pose>::ShuffleboardItem(ItemData data, SwervePose::Pose* value):
+    edit_(data.edit)
+{
+    value_ = value;
+
+    field_.SetRobotPose(units::meter_t{value->pos.getX()}, units::meter_t{value->pos.getY()}, {units::radian_t{value->ang}});
+    frc::SmartDashboard::PutData("Field", &field_);
+};
+
+//Send
+
 void ShuffleboardItem<double>::send(){
     entry_->SetDouble(*value_);
 }
@@ -136,6 +148,11 @@ void ShuffleboardItem<SwervePose::ModulePose>::send(){
     entry_[0]->SetDouble(value_->ang);
     entry_[1]->SetDouble(value_->speed);
 }
+void ShuffleboardItem<SwervePose::Pose>::send(){
+    field_.SetRobotPose(units::meter_t{value_->pos.getX()}, units::meter_t{value_->pos.getY()}, {units::radian_t{value_->ang}});
+}
+
+//Edit
 
 void ShuffleboardItem<double>::edit(){
     if(!edit_)return;
@@ -166,4 +183,8 @@ void ShuffleboardItem<SwervePose::ModulePose>::edit(){
     if(!edit_)return;
     value_->ang = entry_[0]->GetDouble(value_->ang);
     value_->speed = entry_[1]->GetDouble(value_->speed);
+}
+
+void ShuffleboardItem<SwervePose::Pose>::edit(){
+    if(!edit_)return;
 }
