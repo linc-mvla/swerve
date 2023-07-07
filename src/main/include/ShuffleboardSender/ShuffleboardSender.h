@@ -28,12 +28,12 @@ class ShuffleboardSender{
         /**
          * Pair a value on shuffleboard to the code
         */
-        template <typename T> void add(ShuffleboardItem<T>& item){
+        template <typename T> void add(ShuffleboardItem<T>* item){
             items_.push_back(item);
         }
 
         template <typename T> void add(std::string name, T* o, bool edit = false){
-            items_.push_back(ShuffleboardItem({name, tab_, edit}, o));
+            items_.push_back(new ShuffleboardItem({name, tab_, edit}, o));
         }
 
         struct ShuffleboardPose{
@@ -47,7 +47,7 @@ class ShuffleboardSender{
          * {width, height, x, y}
         */
         template <typename T> void add(std::string name, T* o, ShuffleboardPose pose, bool edit = false){
-            items_.push_back(ShuffleboardItem({name, tab_, edit, pose.width, pose.height, pose.positionX, pose.positionY}, o));
+            items_.push_back(new ShuffleboardItem({name, tab_, edit, pose.width, pose.height, pose.positionX, pose.positionY}, o));
         }
         
         /**
@@ -67,5 +67,5 @@ class ShuffleboardSender{
         bool edit_ = false;
         bool enabled_ = false;
         frc::ShuffleboardTab* tab_;
-        std::vector<ShuffleboardItemInterface> items_;
+        std::vector<ShuffleboardItemInterface*> items_;
 };

@@ -1,8 +1,9 @@
 #include "Controls/Controls.h"
 
-Vector Controls::getStrafe(){
+Vector Controls::
+getStrafe(){
     double x = rJoy_.GetRawAxis(ControlConstants::JOY_X);
-    double y = -rJoy_.GetRawAxis(ControlConstants::JOY_Y);
+    double y = rJoy_.GetRawAxis(ControlConstants::JOY_Y);
     Vector p{x, y};
     if(p.originDist() < ControlConstants::RJOY_DEADBAND){
         return Point(0.0, 0.0);

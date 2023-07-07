@@ -2,6 +2,8 @@
 
 #include <vector>
 
+#include <iostream>
+
 #include <frc/shuffleboard/Shuffleboard.h>
 #include <frc/shuffleboard/ComplexWidget.h>
 #include <frc/smartdashboard/Field2d.h>
@@ -22,8 +24,8 @@ class ShuffleboardItemInterface{
             int positionX = -1;
             int positionY = -1;
         };
-        virtual void send(){};
-        virtual void edit(){};
+        virtual void send() = 0;
+        virtual void edit() = 0;
 };
 
 /**
@@ -36,11 +38,11 @@ class ShuffleboardItem : public ShuffleboardItemInterface{
     public:
         ShuffleboardItem(ItemData data, T* value);
         
-        void send(){
+        void send() override {
             entry_->Set(*value_);
         }
 
-        void edit(){
+        void edit() override {
             if(!edit_)return;
             *value_ = entry_->Get();
         }
@@ -84,8 +86,8 @@ template <typename T> ShuffleboardItem<T>::ShuffleboardItem(ItemData data, T* va
 template<> class ShuffleboardItem<double> : public ShuffleboardItemInterface{
     public:
         ShuffleboardItem(ItemData data, double* value);
-        void send();
-        void edit();
+        void send() override;
+        void edit() override;
     private:
         bool edit_;
         double* value_;
@@ -95,8 +97,8 @@ template<> class ShuffleboardItem<double> : public ShuffleboardItemInterface{
 template<> class ShuffleboardItem<bool>: public ShuffleboardItemInterface{
     public:
         ShuffleboardItem(ItemData data, bool* value);
-        void send();
-        void edit();
+        void send() override;
+        void edit() override;
     private:
         bool edit_;
         bool* value_;
@@ -106,8 +108,8 @@ template<> class ShuffleboardItem<bool>: public ShuffleboardItemInterface{
 template<> class ShuffleboardItem<int>: public ShuffleboardItemInterface{
     public:
         ShuffleboardItem(ItemData data, int* value);
-        void send();
-        void edit();
+        void send() override;
+        void edit() override;
     private:
         bool edit_;
         int* value_;
@@ -117,8 +119,8 @@ template<> class ShuffleboardItem<int>: public ShuffleboardItemInterface{
 template<> class ShuffleboardItem<units::volt_t>: public ShuffleboardItemInterface{
     public:
         ShuffleboardItem(ItemData data, units::volt_t* value);
-        void send();
-        void edit();
+        void send() override;
+        void edit() override;
     private:
         bool edit_;
         units::volt_t* value_;
@@ -128,8 +130,8 @@ template<> class ShuffleboardItem<units::volt_t>: public ShuffleboardItemInterfa
 template<> class ShuffleboardItem<frc::PIDController>: public ShuffleboardItemInterface{
     public:
         ShuffleboardItem(ItemData data, frc::PIDController* value);
-        void send();
-        void edit();
+        void send() override;
+        void edit() override;
     private:
         bool edit_;
         frc::PIDController* value_;
@@ -139,8 +141,8 @@ template<> class ShuffleboardItem<frc::PIDController>: public ShuffleboardItemIn
 template<> class ShuffleboardItem<SwervePose::ModulePose>: public ShuffleboardItemInterface{
     public:
         ShuffleboardItem(ItemData data, SwervePose::ModulePose* value);
-        void send();
-        void edit();
+        void send() override;
+        void edit() override;
     private:
         bool edit_;
         SwervePose::ModulePose* value_;
@@ -150,8 +152,8 @@ template<> class ShuffleboardItem<SwervePose::ModulePose>: public ShuffleboardIt
 template<> class ShuffleboardItem<SwervePose::Pose>: public ShuffleboardItemInterface{
     public:
         ShuffleboardItem(ItemData data, SwervePose::Pose* value);
-        void send();
-        void edit();
+        void send() override;
+        void edit() override;
     private:
         bool edit_;
         SwervePose::Pose* value_;

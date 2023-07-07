@@ -4,6 +4,6 @@
 
 namespace RobotConstants{
     namespace NAVX{
-        const auto PORT = frc::SerialPort::kUSB;
+        const auto PORT = frc::SPI::Port::kMXP;
     }
 };

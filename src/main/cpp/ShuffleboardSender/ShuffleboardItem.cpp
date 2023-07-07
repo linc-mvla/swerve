@@ -10,13 +10,13 @@ ShuffleboardItem<double>::ShuffleboardItem(ItemData data, double* value):
 {
     value_ = value;
     if((data.positionX >= 0) && (data.positionY >= 0)){
-        entry_ = data.tab->Add(data.name, &value)
+        entry_ = data.tab->Add(data.name, *value)
                                 .WithSize(data.width, data.height)
                                 .WithPosition(data.positionX, data.positionY)
                                 .GetEntry();
     }
     else{
-        entry_ = data.tab->Add(data.name, &value)
+        entry_ = data.tab->Add(data.name, *value)
                                 .WithSize(data.width, data.height)
                                 .GetEntry();
     }
@@ -27,13 +27,13 @@ ShuffleboardItem<bool>::ShuffleboardItem(ItemData data, bool* value):
 {
     value_ = value;
     if((data.positionX >= 0) && (data.positionY >= 0)){
-        entry_ = data.tab->Add(data.name, &value)
+        entry_ = data.tab->Add(data.name, *value)
                                 .WithSize(data.width, data.height)
                                 .WithPosition(data.positionX, data.positionY)
                                 .GetEntry();
     }
     else{
-        entry_ = data.tab->Add(data.name, &value)
+        entry_ = data.tab->Add(data.name, *value)
                                 .WithSize(data.width, data.height)
                                 .GetEntry();
     }
@@ -44,13 +44,13 @@ ShuffleboardItem<int>::ShuffleboardItem(ItemData data, int* value):
 {
     value_ = value;
     if((data.positionX >= 0) && (data.positionY >= 0)){
-        entry_ = data.tab->Add(data.name, &value)
+        entry_ = data.tab->Add(data.name, *value)
                                 .WithSize(data.width, data.height)
                                 .WithPosition(data.positionX, data.positionY)
                                 .GetEntry();
     }
     else{
-        entry_ = data.tab->Add(data.name, &value)
+        entry_ = data.tab->Add(data.name, *value)
                                 .WithSize(data.width, data.height)
                                 .GetEntry();
     }

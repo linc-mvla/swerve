@@ -5,9 +5,10 @@ using namespace GeometryHelper;
 
 SwerveModule::SwerveModule(SwerveConstants::SwerveStruct swerveMod):
     name_(swerveMod.name),
-    driveMotor_(swerveMod.driveID, "drivebase"),
-    turnMotor_(swerveMod.turnID, "drivebase"),
+    driveMotor_(swerveMod.driveID, ""),
+    turnMotor_(swerveMod.turnID, ""),
     turnEncoder_(swerveMod.turnEncoderID),
+    turnInverted_(swerveMod.inverted),
     driveEncoder_(swerveMod.driveEncoderID[0],swerveMod.driveEncoderID[1]),
     turnPID_(swerveMod.turnPID),
     pos_(swerveMod.pos),
@@ -16,17 +17,20 @@ SwerveModule::SwerveModule(SwerveConstants::SwerveStruct swerveMod):
 {
     driveMotor_.SetNeutralMode(NeutralMode::Coast);
     turnMotor_.SetNeutralMode(NeutralMode::Coast);
-
 }
 
 void SwerveModule::Periodic(){
     //Calc velocity
     //double wheelAng = turnMotor_->GetSelectedSensorPosition() / SwerveConstants::TICKS_PER_RADIAN;
-    double wheelAng = toRad(turnEncoder_.GetAbsolutePosition() + encoderOffset_);
+    double wheelAng = ((turnEncoder_.GetVoltage()/5.0)*2.0*M_PI) + encoderOffset_; //[0,5] volt range of GetVoltage
+    if(turnInverted_){
+        wheelAng = -wheelAng;
+    }
     if(inverted_){
         wheelAng += M_PI;
     }
-    double driveAngVel = driveMotor_.GetSelectedSensorVelocity() * 10.0 / SwerveConstants::TICKS_PER_RADIAN;
+    wheelAng = getPrincipalAng2(wheelAng);
+    double driveAngVel = driveEncoder_.GetRate() * 10.0 / SwerveConstants::TICKS_PER_RADIAN;
     double wheelVel = driveAngVel * SwerveConstants::WHEEL_RADIUS;
     currPose_.ang = wheelAng;
     currPose_.speed = wheelVel;
@@ -41,6 +45,7 @@ void SwerveModule::TeleopInit(){
 };
 
 void SwerveModule::TeleopPeriodic(){
+    //Set voltage to target
     double driveTarg = std::clamp(targetPose_.speed, -maxDriveVolts_, maxDriveVolts_);
     if(inverted_){
         driveTarg = -driveTarg;

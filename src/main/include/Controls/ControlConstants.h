@@ -13,10 +13,12 @@ namespace ControlConstants{
     const double STRAFE_CONST = 12.0;
 
     //RJOY
-    const double RJOY_DEADBAND = 0.05;
+    const double RJOY_DEADBAND = 0.03
+    []\
+    ;
 
     const double ROTATION_CONST = 12.0; //How much to increase rotation
 
     //Field Orient
-    const int FIELD_ORIENT = 0; //LJOY
+    const int FIELD_ORIENT = 2; //LJOY
 }

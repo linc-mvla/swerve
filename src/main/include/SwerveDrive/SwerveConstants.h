@@ -21,43 +21,45 @@ namespace SwerveConstants{
         int driveEncoderID[2];
         double encoderOffset;
         Point pos; //Meters
-        frc::PIDController turnPID = {2.7, 0, 0};
+        bool inverted = false; //Pos turn volts = neg encoder value
+        frc::PIDController turnPID = {6.7, 0, 0};
     };
 
     //X axis is the side
     //Y axis is front-back
     const SwerveStruct FL = {   "Front Left",       //Name
-                                2,                 //Drive ID
-                                1,                  //Turn ID
-                                2, {6,7}, -185.009 + 180.0,        //turnID, drive encoder ID, offset
-                                {-0.3429, 0.3429}   //Position
+                                1,                 //Drive ID
+                                2,                  //Turn ID
+                                0, {6,7}, -1.673,        //turnID, drive encoder ID, offset
+                                {-0.3429, 0.3429},   //Position
+                                false                    //inverted
                             };
 
     const SwerveStruct FR = {   "Front Right",
                                 21,
                                 22,
-                                1, {8,9}, -9.31,
+                                2, {8,9}, 1.735,
                                 {0.3429, 0.3429}
                             };
 
     const SwerveStruct BL = {   "Back Left",
                                 11,
                                 12,
-                                0, {2,3}, -98.613,
+                                1, {2,3}, -1.297,
                                 {-0.3429, -0.3429}
                             };
 
     const SwerveStruct BR = {   "Back Right",
-                                32,
                                 31,
-                                3, {4,5}, -209.855 + 180.0,
+                                32,
+                                3, {4,5}, -1.374,
                                 {0.3429, -0.3429}
                             };
 
     const SwerveStruct MODULES[] = {FL, FR, BL, BR};
     const int NUMSWERVE = 4;
 
-    const double DRIVE_MAX_VOLTS = 3.0; //Volts
+    const double DRIVE_MAX_VOLTS = 6.0; //Volts
     const double TURN_MAX_VOLTS = 12.0; //Volts
 
     const double WHEEL_RADIUS = 0.0508; //Meters

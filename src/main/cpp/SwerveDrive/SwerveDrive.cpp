@@ -29,6 +29,7 @@ void SwerveDrive::Periodic(){
         module->Periodic();
     }
     updatePose();
+    ShuffData_.update();
     //printShuffleboard();
 }
 

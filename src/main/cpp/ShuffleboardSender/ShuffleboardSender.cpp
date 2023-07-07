@@ -15,12 +15,15 @@ void ShuffleboardSender::Initialize(bool edit){
 }
 
 void ShuffleboardSender::update(){
+    if(!initialized_){
+        return;
+    }
     if(edit_){
-        for(ShuffleboardItemInterface item : items_){
-            item.edit();
+        for(ShuffleboardItemInterface* item : items_){
+            item->edit();
         }
     }
-    for(ShuffleboardItemInterface item : items_){
-        item.send();
+    for(ShuffleboardItemInterface* item : items_){
+        item->send();
     }
 };

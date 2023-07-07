@@ -6,6 +6,7 @@
 #include <units/voltage.h>
 #include <frc/Encoder.h>
 #include <frc/AnalogEncoder.h>
+#include <frc/AnalogInput.h>
 
 #include <string>
 #include <cmath>
@@ -55,7 +56,8 @@ class SwerveModule{
         double maxTurnVolts_ = SwerveConstants::TURN_MAX_VOLTS;
 
         frc::Encoder driveEncoder_;
-        frc::AnalogEncoder turnEncoder_;
+        frc::AnalogInput turnEncoder_;
+        double turnInverted_;
         double encoderOffset_;
 
         frc::PIDController turnPID_{0, 0, 0};
