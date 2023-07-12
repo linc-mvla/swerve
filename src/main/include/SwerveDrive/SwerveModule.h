@@ -1,6 +1,7 @@
 #pragma once
 
 #include <ctre/Phoenix.h>
+
 #include <frc2/command/PIDCommand.h>
 #include <frc/shuffleboard/Shuffleboard.h>
 #include <units/voltage.h>
