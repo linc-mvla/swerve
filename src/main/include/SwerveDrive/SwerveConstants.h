@@ -22,34 +22,34 @@ namespace SwerveConstants{
         Point pos; //Meters
         frc::PIDController turnPID = {2.7, 0, 0};
     };
-
+    const std::string canBus = "Drivebase";
     //X axis is the side
     //Y axis is front-back
     const SwerveStruct FL = {   "Front Left",       //Name
-                                23,                 //Drive ID
-                                5,                  //Turn ID
-                                2, -185.009 + 180.0,        //Encoder ID, offset
+                                21,                 //Drive ID
+                                15,                  //Turn ID
+                                62, 79.4,        //Encoder ID, offset added to read value
                                 {-0.3429, 0.3429}   //Position
                             };
 
     const SwerveStruct FR = {   "Front Right",
-                                4,
-                                10,
-                                8, -9.31,
+                                14,
+                                13,
+                                42, 160.9,
                                 {0.3429, 0.3429}
                             };
 
     const SwerveStruct BL = {   "Back Left",
-                                22,
-                                19,
-                                6, -98.613,
+                                17,
+                                18,
+                                8, 67.5,
                                 {-0.3429, -0.3429}
                             };
 
     const SwerveStruct BR = {   "Back Right",
-                                1,
-                                7,
-                                9, -209.855 + 180.0,
+                                11,
+                                12,
+                                10, -6.0,
                                 {0.3429, -0.3429}
                             };
 

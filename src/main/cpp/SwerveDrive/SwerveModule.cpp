@@ -5,9 +5,9 @@ using namespace GeometryHelper;
 
 SwerveModule::SwerveModule(SwerveConstants::SwerveStruct swerveMod):
     name_(swerveMod.name),
-    driveMotor_(swerveMod.driveID, "drivebase"),
-    turnMotor_(swerveMod.turnID, "drivebase"),
-    cancoder_(swerveMod.encoderID, "drivebase"),
+    driveMotor_(swerveMod.driveID, SwerveConstants::canBus),
+    turnMotor_(swerveMod.turnID, SwerveConstants::canBus),
+    cancoder_(swerveMod.encoderID, SwerveConstants::canBus),
     pos_(swerveMod.pos),
     turnPID_(swerveMod.turnPID),
     encoderOffset_(swerveMod.encoderOffset),
