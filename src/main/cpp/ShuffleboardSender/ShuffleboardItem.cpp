@@ -92,7 +92,7 @@ ShuffleboardItem<frc::PIDController>::ShuffleboardItem(ItemData data, frc::PIDCo
     }
     entry_[0] = pidLayout->Add("P", value->GetP()).GetEntry();   
     entry_[1] = pidLayout->Add("I", value->GetI()).GetEntry();
-    entry_[2] = pidLayout->Add("D", value->GetD()).GetEntry();   
+    entry_[2] = pidLayout->Add("D", value->GetD()).GetEntry(); 
 };
 
 ShuffleboardItem<SwervePose::ModulePose>::ShuffleboardItem(ItemData data, SwervePose::ModulePose* value):

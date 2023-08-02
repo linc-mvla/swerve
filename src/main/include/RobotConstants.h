@@ -1,6 +1,6 @@
 #pragma once
 
-#include <frc/SerialPort.h>
+#include <frc/SPI.h>
 
 namespace RobotConstants{
     namespace NAVX{
