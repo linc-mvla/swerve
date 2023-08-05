@@ -18,39 +18,41 @@ namespace SwerveConstants{
         int driveID;
         int turnID;
         int encoderID;
-        double encoderOffset;
+        double encoderOffset; //Degrees
         Point pos; //Meters
-        frc::PIDController turnPID = {2.7, 0, 0};
+        bool encoderInverted = true; //If the motor/wheel spins opposite to the encoder
+        frc::PIDController turnPID = {4.0, 0, 0.2}; // Radians -> volts
     };
     const std::string canBus = "Drivebase";
-    //X axis is the side
-    //Y axis is front-back
+    //X axis is the side-side axis, back is negative, forwards is positive
+    //Y axis is the front-back axis, left is negative, right is positive
+    //This way an angle of 90 is to go forward
     const SwerveStruct FL = {   "Front Left",       //Name
                                 21,                 //Drive ID
-                                15,                  //Turn ID
-                                62, 79.4,        //Encoder ID, offset added to read value
-                                {-0.3429, 0.3429}   //Position
+                                15,                 //Turn ID
+                                62, 107.1,          //Encoder ID, offset added to read value
+                                {0.3429, -0.3429}   //Position
                             };
 
     const SwerveStruct FR = {   "Front Right",
                                 14,
                                 13,
-                                42, 160.9,
+                                42, -161.99,
                                 {0.3429, 0.3429}
                             };
 
     const SwerveStruct BL = {   "Back Left",
                                 17,
                                 18,
-                                8, 67.5,
+                                8, 109.96,
                                 {-0.3429, -0.3429}
                             };
 
     const SwerveStruct BR = {   "Back Right",
                                 11,
                                 12,
-                                10, -6.0,
-                                {0.3429, -0.3429}
+                                10, 5.2,
+                                {-0.3429, 0.3429}
                             };
 
     const SwerveStruct MODULES[] = {FL, FR, BL, BR};

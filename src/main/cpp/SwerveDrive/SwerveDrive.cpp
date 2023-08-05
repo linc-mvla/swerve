@@ -79,7 +79,7 @@ void SwerveDrive::TeleopPeriodic(){
 void SwerveDrive::drive(){
     for(SwerveModule* module : modules_){
         Vector angVelVec = module->getPos() - pivot_; //Get vector from pivot to module
-        //angVelVec.rotateCounterclockwise90This(); //Set to vector tangent to the path of rotation
+        angVelVec.rotateCounterclockwise90This(); //Set to vector tangent to the path of rotation
 
         //Adds tangential velocity, which is just the target tangential velocity (rotated by the robot's pose)
         //Adds the rotational velocity, which is the angVelVec times the angular velocity: v = r*w

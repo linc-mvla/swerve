@@ -54,6 +54,7 @@ class SwerveModule{
 
         WPI_CANCoder cancoder_;
         double encoderOffset_;
+        bool encoderInverted_;
 
         frc::PIDController turnPID_{0, 0, 0};
         SwervePose::ModulePose targetPose_;//either m/s or volts for drive

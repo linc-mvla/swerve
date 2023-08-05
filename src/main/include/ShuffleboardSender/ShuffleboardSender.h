@@ -8,7 +8,6 @@
 #include <units/voltage.h>
 
 #include "ShuffleboardItem.h"
-#include "SwerveDrive/SwervePose.h"
 
 /**
  * Class to send many variables to Shuffleboard and edit them
@@ -27,16 +26,29 @@ class ShuffleboardSender{
         bool isInitialized(){return initialized_;}
 
         /**
-         * Add a pointer to an variable to send/get
+         * Pair a value on shuffleboard to the code
         */
-        void add(ShuffleboardItem item);
-        void add(std::string name, double* o, bool edit = false);
-        void add(std::string name, bool* o, bool edit = false);
-        void add(std::string name, int* o, bool edit = false);
-        void add(std::string name, units::volt_t* o, bool edit=false);
-        void add(std::string name, frc::PIDController* o, bool edit = false);
-        void add(std::string name, SwervePose::Pose* o, bool edit = false);
-        void add(std::string name, SwervePose::ModulePose* o, bool edit = false);
+        template <typename T> void add(ShuffleboardItem<T>* item){
+            items_.push_back(item);
+        }
+
+        template <typename T> void add(std::string name, T* o, bool edit = false){
+            items_.push_back(new ShuffleboardItem({name, tab_, edit}, o));
+        }
+
+        struct ShuffleboardPose{
+            int width = 1;
+            int height = 1;
+            int positionX = -1;
+            int positionY = -1;
+        };
+        /**
+         * Pose Struct:
+         * {width, height, x, y}
+        */
+        template <typename T> void add(std::string name, T* o, ShuffleboardPose pose, bool edit = false){
+            items_.push_back(new ShuffleboardItem({name, tab_, edit, pose.width, pose.height, pose.positionX, pose.positionY}, o));
+        }
         
         /**
          * Updates variables by reading and configuring, and then sending the data
@@ -55,5 +67,5 @@ class ShuffleboardSender{
         bool edit_ = false;
         bool enabled_ = false;
         frc::ShuffleboardTab* tab_;
-        std::vector<ShuffleboardItem> items_;
+        std::vector<ShuffleboardItemInterface*> items_;
 };
