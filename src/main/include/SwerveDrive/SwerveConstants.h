@@ -12,47 +12,45 @@
 #endif
 
 namespace SwerveConstants{
+
     struct SwerveStruct{
         std::string name;
         int driveID;
         int turnID;
         int encoderID;
-        double encoderOffset; //Degrees
+        double encoderOffset;
         Point pos; //Meters
-        bool encoderInverted = true; //If the motor/wheel spins opposite to the encoder
-        frc::PIDController turnPID = {4.0, 0, 0.2}; // Radians -> volts
+        frc::PIDController turnPID = {2.7, 0, 0};
     };
-    const std::string canBus = "Drivebase";
-    //X axis is the side-side axis, back is negative, forwards is positive
-    //Y axis is the front-back axis, left is negative, right is positive
-    //This way an angle of 90 is to go forward
-    const double HALFSIDE_LENGTH = 0.3429;
+
+    //X axis is the side
+    //Y axis is front-back
     const SwerveStruct FL = {   "Front Left",       //Name
-                                21,                 //Drive ID
-                                15,                 //Turn ID
-                                62, 107.1,          //Encoder ID, offset added to read value
-                                {HALFSIDE_LENGTH, -HALFSIDE_LENGTH}   //Position
+                                23,                 //Drive ID
+                                5,                  //Turn ID
+                                2, -185.009 + 180.0,        //Encoder ID, offset
+                                {-0.3429, 0.3429}   //Position
                             };
 
     const SwerveStruct FR = {   "Front Right",
-                                14,
-                                13,
-                                42, -161.99,
-                                {HALFSIDE_LENGTH, HALFSIDE_LENGTH}
+                                4,
+                                10,
+                                8, -9.31,
+                                {0.3429, 0.3429}
                             };
 
     const SwerveStruct BL = {   "Back Left",
-                                17,
-                                18,
-                                8, 109.96,
-                                {-HALFSIDE_LENGTH, -HALFSIDE_LENGTH}
+                                22,
+                                19,
+                                6, -98.613,
+                                {-0.3429, -0.3429}
                             };
 
     const SwerveStruct BR = {   "Back Right",
-                                11,
-                                12,
-                                10, 5.2,
-                                {-HALFSIDE_LENGTH, HALFSIDE_LENGTH}
+                                1,
+                                7,
+                                9, -209.855 + 180.0,
+                                {0.3429, -0.3429}
                             };
 
     const SwerveStruct MODULES[] = {FL, FR, BL, BR};
