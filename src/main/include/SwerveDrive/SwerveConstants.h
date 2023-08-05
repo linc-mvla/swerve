@@ -12,7 +12,6 @@
 #endif
 
 namespace SwerveConstants{
-
     struct SwerveStruct{
         std::string name;
         int driveID;
@@ -27,32 +26,33 @@ namespace SwerveConstants{
     //X axis is the side-side axis, back is negative, forwards is positive
     //Y axis is the front-back axis, left is negative, right is positive
     //This way an angle of 90 is to go forward
+    const double HALFSIDE_LENGTH = 0.3429;
     const SwerveStruct FL = {   "Front Left",       //Name
                                 21,                 //Drive ID
                                 15,                 //Turn ID
                                 62, 107.1,          //Encoder ID, offset added to read value
-                                {0.3429, -0.3429}   //Position
+                                {HALFSIDE_LENGTH, -HALFSIDE_LENGTH}   //Position
                             };
 
     const SwerveStruct FR = {   "Front Right",
                                 14,
                                 13,
                                 42, -161.99,
-                                {0.3429, 0.3429}
+                                {HALFSIDE_LENGTH, HALFSIDE_LENGTH}
                             };
 
     const SwerveStruct BL = {   "Back Left",
                                 17,
                                 18,
                                 8, 109.96,
-                                {-0.3429, -0.3429}
+                                {-HALFSIDE_LENGTH, -HALFSIDE_LENGTH}
                             };
 
     const SwerveStruct BR = {   "Back Right",
                                 11,
                                 12,
                                 10, 5.2,
-                                {-0.3429, 0.3429}
+                                {-HALFSIDE_LENGTH, HALFSIDE_LENGTH}
                             };
 
     const SwerveStruct MODULES[] = {FL, FR, BL, BR};
